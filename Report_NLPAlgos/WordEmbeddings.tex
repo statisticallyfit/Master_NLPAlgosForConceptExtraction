@@ -1,0 +1,49 @@
+\section{Word Embeddings}
+
+Word embeddings, also called latent vector representations, which are fixed-length vector representations of words, have led to the success of many NLP systems in recent years, across tasks like named entity recognition (NER), part-of-speech tagging (POS), parsing, and semantic role labeling (SRL) (Luong et al. 2013, p. 1).
+
+\subsection{Usage of Word Embeddings in Natural Language Processing}
+An important idea in linguistics is that words used in similar ways have similar meanings (Firth, 1957). A distributional view of word meaning arises when accounting for the full distribution of contexts in a corpus where the word is found. For instance, words that tend to occur in the same neighboring context can be clustered to signify they have similar meaning. A key idea in NLP is suggests that information lives in text corpora and people and machines can use programs to collect and organize this information for use in NLP. With the onset of ever-larger text collections on the web, these programs have progressed from count-based statistics to more advanced methods. There are many insights into the power of word embeddings; similar words being close together allows generalization from one sentence to a class of similar sentences. For instance "the wall is blue" to "the ceiling is red" (Smith, 2019, p. 4). Put succinctly, "distributed representations words in a vector space help learning algorithms to achieve better performance in natural language processing tasks by grouping similar words" (Mikolov et al. 2013a, p. 1). 
+
+
+\subsection{Intuitive Definition of Word Embeddings}
+In the world of natural language processing, word embeddings are a collection of unsupervised learning methods for capturing semantic and syntactic information about individual words in a compact low-dimensional vector representation. Embedding methods analyze text data, learning distributed semantic representations of the vocabulary to capture its co-occurrence statistics. These learned representations are then useful for reasoning about word usage and meaning (Melamud et al. 2016, p. 1). 
+
+Word vectors can be also calculated from sentences, phrases, or characters to create sentence embedding, phrase embedding, or character embedding, respectively. Character embeddings can be used to explain language morphology. For example, the following variants of the word "would" in social media would have similar character embeddings because they are spelled similarly: "would", "wud", "wld", "wuld", "wouldd", "woud", and so on (Smith, 2019, p. 5). 
+
+Tokenization is the task-specific process of segmenting text into machine-understandable language. The term "tokens" describes words but also punctuation, hyperlinks, and possessive markers, such as apostrophes (Mohler, 2018). For example, lemma-based tokenization would specify that the tokens "cat" and plural "cats" would mean one word with the same stem or core meaning-bearing unit. Other forms of tokenization exist to differentiate word form, so those would be distinct tokens. Sentences and even characters can be tokenized out of a paragraph (Chromiak, 2017). 
+
+\subsubsection{Analogical Reasoning Property of Word Embeddings}
+Word embeddings can also represent analogies that have been encoded in the difference vectors between words. For example, gender differences can be represented by a constant difference vector, enabling mathematical operations between vectors based on vector space semantics (Colah, 2014). The famous analogy "man is to woman as king is to queen" can thus be expressed using learned word vectors as follows: $vector(man) - vector(woman) = vector(king) - vector(queen)$ (Smith, 2019). In the NLP task of machine translation, this property of learned word vectors would suggest the two languages being translated have a similar 'shape' and "that by forcing them to line up at different points, they overlap and and other points get pulled into the right positions" (Colah, 2014).
+
+\subsection{Mathematical Formulation of Word Embeddings}
+ 
+A word embedding $W: [Words] \rightarrow R^n$ is a parametrized function mapping words in a language to an $n$-dimensional numeric vector. An example is: 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{example_word_embedding.png}
+\caption{Figure 1. Example Word Embeddings. From \emph{Visualizing Neural Machine Translation Mechanics of Seq2Seq Models with Attention}, by Jay Alammar, 2018. \url{http://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/}. Copyright 2018 by Jay Alammar.}
+\end{figure}
+
+
+\subsection{Word Embedding Representations: Count-Based vs. Context-Based}
+
+One way to convert human text into machine-interpretable data is to use a one-hot encoding. Essentially, each distinct word stands for one dimension of the resulting vector a
+
+
+
+
+\subsection{How Word Embeddings are Used}
+
+To complete NLP tasks, NLP models usually choose to use probability as a measure to evaluate a language model. 
+
+Word embeddings are trained as parameters to optimize a generic task-independent objective function. 
+
+Word embeddings are generally fed as vector parameters into a neural network language model. Each row of a word embedding matrix corresponds to a word in the vocabulary, which consists of unique tokens from a corpus. 
+
+The word embedding matrix corresponds to the weights of the neural network, which are trained to minimize an objective or loss function by backpropagating gradients over the neural network. 
+
+Alternatively, we can view this loss function as maximizing the conditional probabilities of words. The conditional probability of a word combines its embedding and the context vectors of its surrounding words. Different language models combine them differently. 
+
+In this way, distributional semantics arises as word embeddings learn to represent context via proximity of related words.  

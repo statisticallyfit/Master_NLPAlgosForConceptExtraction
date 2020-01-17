@@ -1,0 +1,30 @@
+\section{Language Models}
+
+A language model takes as input a sequence of word vectors and outputs a sequence of predicted word vectors by learning a probability distribution over words in a vocabulary. 
+Intuitively, language models predict words in a blank. For instance, given the following context: "The $\_\_\_$ sat on the mat" where $\_\_\_$ is the word to predict, a language model might suggest the word "cat" should fill the blank a certain percentage of the time and the word "dog" would fill the blank with lower probability. 
+Formally, language models work by computing the conditional probability of a word $w_t$ given a context, such as its previous $n-1$ words, where the probability is: $P(w_t | w_{t-1}, ..., w_{t-n+1})$. 
+
+Using a softmax layer, the model aims to maximize the probability of predicting the correct word at every timestep $t$. By the calculus chain rule, a language model is trained to maximize the average of the log probabilities of all words in the corpus given, say, the previous $n$ words: 
+$$
+J_{\theta} = \frac{1}{T} \sum_{t=1}^T log \Large(P(w_t | w_{t-1},..., w_{t-n+1}) \Large)
+$$
+
+There are several kinds of language models. 
+
+\subsection{Definition: n-gram Language Model}
+
+An n-gram is a sequence of $n$ words. The n-gram language model is one of the simplest models that assigns probabilities to sentences and word sequences. It calculates a word's probability based on the frequencies of its constituent n-grams: 
+$$
+P(w_t | w_{t-1}, ..., w_{t-n+1}) = \frac {count(w_{t-n+1},...,w_{t-1},w_t)} {count(w_{t-n+1},...,w_{t-1})}
+$$
+Instead of using the entire corpus as history for prediction word $w_t$, the n-gram language model serves to take just the preceding $n-1$ words as context, relying on the Markov assumption that states a word's probability depends only on the previous word. 
+
+
+
+\subsection{Definition: Neural Network Language Model}
+
+\subsection{Definition: Forward Language Model}
+
+\subsection{Definition: Backward Language Model}
+
+\subsection{Definition: Bidirectional Language Model}
