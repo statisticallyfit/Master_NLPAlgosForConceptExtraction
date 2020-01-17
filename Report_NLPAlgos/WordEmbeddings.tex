@@ -16,18 +16,49 @@ Tokenization is the task-specific process of segmenting text into machine-unders
 \subsubsection{Analogical Reasoning Property of Word Embeddings}
 Word embeddings can also represent analogies that have been encoded in the difference vectors between words. For example, gender differences can be represented by a constant difference vector, enabling mathematical operations between vectors based on vector space semantics (Colah, 2014). The famous analogy "man is to woman as king is to queen" can thus be expressed using learned word vectors as follows: $vector(man) - vector(woman) = vector(king) - vector(queen)$ (Smith, 2019). In the NLP task of machine translation, this property of learned word vectors would suggest the two languages being translated have a similar 'shape' and "that by forcing them to line up at different points, they overlap and and other points get pulled into the right positions" (Colah, 2014).
 
-\subsection{Mathematical Formulation of Word Embeddings}
+\subsection{Mathematical Overview For Word Embeddings}
  
 A word embedding $W: [Words] \rightarrow R^n$ is a parametrized function mapping words in a language to an $n$-dimensional numeric vector. An example is: 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{example_word_embedding.png}
-\caption{Figure 1. Example Word Embeddings. From \emph{Visualizing Neural Machine Translation Mechanics of Seq2Seq Models with Attention}, by Jay Alammar, 2018. \url{http://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/}. Copyright 2018 by Jay Alammar.}
+\caption{Example Word Embeddings. From \emph{Visualizing Neural Machine Translation Mechanics of Seq2Seq Models with Attention}, by Jay Alammar, 2018. \url{http://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/}. Copyright 2018 by Jay Alammar.}
 \end{figure}
+
+According to Rudolph et al. (2016), "each term in a vocabulary is associated with two latent vectors, an \emph{embedding} and a \emph{context vector}. These two types of vectors govern conditional probabilities that relate each word to its surrounding context." 
+Rudolph and Blei (2017) note that a word embedding uses vector representations to parameterize the conditional probabilities of words in a surrounding context. 
+In other words, a word's conditional probability combines its \emph{embedding} and \emph{context vectors} of surrounding words, with different methods combining them differently. Subsequently, word embeddings are fitted to given text data by maximizing the conditional probabilities of observed text (Rudolph et al. 2017). 
+
+\subsection{Static Embeddings vs. Contextual Embeddings}
+
+\subsubsection{What is Polysemy?}
+
+Polysemy means that a word can have multiple, distinct meanings. The distributional hypothesis in NLP states that meaning depends on context, and words occurring in the same contexts have similar meaning (Wiedemann et al. 2019). 
+
+\subsubsection{The Problem With Static Embeddings: A Context-Free Representation}
+
+Classic word vectors, also called static embeddings, represent words in a low-dimensional continuous space in a static way: this means each word has a single word vector representation regardless of its context (Ethayarajh, 2019). Skip-gram (Mikolov et al., 2013a) and GloVe (Pennington et al., 2014) are well-known algorithms for producing these "context-independent representations," as Peters et al. (2018) calls them, due to the fact that their word embedding matrix, inputted to a neural network representation, is trained to use co-occurring information in text, rather than using dynamic computation offered by language models (Batista, 2018). Although still able to capture latent syntactic and semantic meaning by training over large corpora, static embeddings by definition create a single vector representation per word, so all senses of a polysemous word are collapsed within a single representation (Ethayarajh, 2019). 
+
+\subsubsection{A Better Solution: Contextual Embeddings To Capture Polysemy}
+
+A contextual word embedding (CWE) is
+
+Recent efforts to capture polysemy for word embeddings cast aside the idea of using a fixed word sense inventory. This allows contextual embeddings to "not only create one vector representation for each [word] type in the vocabulary" but to also create separate vectors for each token in a surrounding context. Indeed, experiments show that contextual embeddings can capture word senses successfully (Wiedemann et al., 2019). Wiedemann concludes that this allows for a more realistic model of natural language; contextual embeddings have proven their superiority over static embeddings for many NLP tasks such as text classification (Zampieri et al., 2019) and sequence tagging (Akbig et al., 2018). Although contextualization models such as BERT, ELMo, ERNIE 2.0, and Transformer differ widely, modeling "sentence or context-level semantics together with word-level semantics proved to be a powerful innovation" in the NLP world (Wiedemann et al., 2019). 
+
+
+
+----------------
 
 
 \subsection{Word Embedding Representations: Count-Based vs. Context-Based}
+
+LILIAN WENG: https://hyp.is/dKRaygVnEeqRaI-_7zzFtQ/lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html
+"There are two main approaches for learning word embedding, both relying on the contextual knowledge.
+
+Count-based: The first one is unsupervised, based on matrix factorization of a global word co-occurrence matrix. Raw co-occurrence counts do not work well, so we want to do smart things on top.
+Context-based: The second approach is supervised. Given a local context, we want to design a model to predict the target words and in the meantime, this model learns the efficient word embedding representation."
+
 
 One way to convert human text into machine-interpretable data is to use a one-hot encoding. Essentially, each distinct word stands for one dimension of the resulting vector a
 
