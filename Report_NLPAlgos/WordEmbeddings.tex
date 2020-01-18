@@ -38,43 +38,16 @@ Polysemy means that a word can have multiple, distinct meanings. The distributio
 
 \subsubsection{The Problem With Static Embeddings: A Context-Free Representation}
 
-Classic word vectors, also called static embeddings, represent words in a low-dimensional continuous space in a static way: this means each word has a single word vector representation regardless of its context (Ethayarajh, 2019). Skip-gram (Mikolov et al., 2013a) and GloVe (Pennington et al., 2014) are well-known algorithms for producing these "context-independent representations," as Peters et al. (2018) calls them, due to the fact that their word embedding matrix, inputted to a neural network representation, is trained to use co-occurring information in text, rather than using dynamic computation offered by language models (Batista, 2018). Although still able to capture latent syntactic and semantic meaning by training over large corpora, static embeddings by definition create a single vector representation per word, so all senses of a polysemous word are collapsed within a single representation (Ethayarajh, 2019). 
+Classic word vectors, also called static embeddings, represent words in a low-dimensional continuous space in a static way: this means each word has a single word vector representation regardless of its context (Ethayarajh, 2019). Skip-gram (Mikolov et al., 2013a) and GloVe (Pennington et al., 2014) are well-known algorithms for producing these "context-independent representations," as Peters et al. (2018) calls them, due to the fact that their word embedding matrix, inputted to a neural network representation, is trained to use co-occurring information in text, rather than using dynamic computation offered by language models (Batista, 2018). Although still able to capture latent syntactic and semantic meaning by training over large corpora, static embeddings by definition create a single vector representation per word, so all senses of a polysemous word are collapsed within a single representation (Ethayarajh, 2019). For instance, the word "plant" would have an embedding that is the "average of its different contextual semantics relating to biology, placement, manufacturing, and power generation" (Neelakantan et al., 2015). 
 
 \subsubsection{A Better Solution: Contextual Embeddings To Capture Polysemy}
 
-A contextual word embedding (CWE) is
+In the Annual Review of Linguistics, Lenci (2018) states that "distributional semantics is a usage-based model of meaning, based on the assumption that the statistical distribution of linguistic items in context plays a key role in characterizing their semantic behavior".
 
-Recent efforts to capture polysemy for word embeddings cast aside the idea of using a fixed word sense inventory. This allows contextual embeddings to "not only create one vector representation for each [word] type in the vocabulary" but to also create separate vectors for each token in a surrounding context. Indeed, experiments show that contextual embeddings can capture word senses successfully (Wiedemann et al., 2019). Wiedemann concludes that this allows for a more realistic model of natural language; contextual embeddings have proven their superiority over static embeddings for many NLP tasks such as text classification (Zampieri et al., 2019) and sequence tagging (Akbig et al., 2018). Although contextualization models such as BERT, ELMo, ERNIE 2.0, and Transformer differ widely, modeling "sentence or context-level semantics together with word-level semantics proved to be a powerful innovation" in the NLP world (Wiedemann et al., 2019). 
+Thus, context is an important feature of NLP. Rudolph et al. (2016) states that "each data point $i$ has a \emph{context} $c$, which is a set of indices of other data points." Context is also a modeling choice; in different domains, context can differ. In language, the data point is taken to be a word and the context is the sequence of surrounding words. In neural data, the data point is neuron activity at a specific time and context is surrounding neuron activity. In shopping data, the data point refers to a purchase and context can mean other items in a basket (Rudolph et al., 2016). 
 
+A contextual word embedding (CWE) is usually obtained using a bidirectional language model to capture contextual information using forward and backward history to incorporate surrounding phrases of the word (Antonio, 2019). Typically, a model uses an encoder to process input sequence and squeeze the information into a fixed-length context vector. While word vectors are "lookup tables", contextual embeddings include type information and neural network parameters to "contextualize" a word (Smith, 2019). 
 
-
-----------------
-
-
-\subsection{Word Embedding Representations: Count-Based vs. Context-Based}
-
-LILIAN WENG: https://hyp.is/dKRaygVnEeqRaI-_7zzFtQ/lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html
-"There are two main approaches for learning word embedding, both relying on the contextual knowledge.
-
-Count-based: The first one is unsupervised, based on matrix factorization of a global word co-occurrence matrix. Raw co-occurrence counts do not work well, so we want to do smart things on top.
-Context-based: The second approach is supervised. Given a local context, we want to design a model to predict the target words and in the meantime, this model learns the efficient word embedding representation."
+Recent efforts to capture polysemy for word embeddings cast aside the idea of using a fixed word sense inventory. This allows contextual embeddings to "not only create one vector representation for each [word] type in the vocabulary" but to also create separate vectors for each token in a surrounding context. Indeed, experiments show that contextual embeddings can capture word senses successfully (Wiedemann et al., 2019). Wiedemann concludes that this allows for a more realistic model of natural language; contextual embeddings have proven their superiority over static embeddings for many NLP tasks such as text classification (Zampieri et al., 2019) and sequence tagging (Akbig et al., 2018). Although contextualization models such as BERT, ELMo, ERNIE 2.0, and Transformer differ widely, modeling "sentence or context-level semantics together with word-level semantics proved to be a powerful innovation" in the NLP world (Wiedemann et al., 2019). This would reduce model accuracy in general. 
 
 
-One way to convert human text into machine-interpretable data is to use a one-hot encoding. Essentially, each distinct word stands for one dimension of the resulting vector a
-
-
-
-
-\subsection{How Word Embeddings are Used}
-
-To complete NLP tasks, NLP models usually choose to use probability as a measure to evaluate a language model. 
-
-Word embeddings are trained as parameters to optimize a generic task-independent objective function. 
-
-Word embeddings are generally fed as vector parameters into a neural network language model. Each row of a word embedding matrix corresponds to a word in the vocabulary, which consists of unique tokens from a corpus. 
-
-The word embedding matrix corresponds to the weights of the neural network, which are trained to minimize an objective or loss function by backpropagating gradients over the neural network. 
-
-Alternatively, we can view this loss function as maximizing the conditional probabilities of words. The conditional probability of a word combines its embedding and the context vectors of its surrounding words. Different language models combine them differently. 
-
-In this way, distributional semantics arises as word embeddings learn to represent context via proximity of related words.  
