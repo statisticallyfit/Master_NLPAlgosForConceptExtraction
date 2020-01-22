@@ -1,0 +1,34 @@
+\section{GloVe Model}
+
+The Global Vectors for Word Representation (GloVe) model is an unsupervised learning algorithm that aims to capture meaning in a semantic vector space using global count statistics instead of only local contextual information (Pennington et al., 2014). The GloVe authors show that it is the \emph{ratio} of co-occurrence probabilities of two words rather than their actual probabilities that contains meaning and they carve out this information as vector offsets. 
+
+\subsection{Problem with Word2Vec: Secret in the Loss Function}
+
+A major deficiency in Word2Vec is that it only accounts for local contexts and ignores global count information. Kurita (2018) exemplifies that the words ``the" and ``cat" might be used together frequently but Word2Vec doesn't know if this is because ``the" is a common word or because ``the" and ``cat" are actually correlated. 
+
+Pennington et al. (2014) say that Word2Vec implicitly optimizes over a co-occurrence matrix while streaming over input sentences. The key point is that Word2Vec optimizes the log likelihood of seeing words in the same context windows together, resulting in the below alternative way of expressing Word2Vec's loss function: 
+$$
+J = - \sum_i X_i \sum_j P_{ij} \text{log}(Q_{ij}) 
+$$
+where $X_i = \sum_k X_{ik}$ is the total number of words appearing in the context of word $i$ and $Q_{ij}$ is the probability that word $j$ appears in context of word $i$ and is estimated as a softmax: $Q_{ij} = \text{softmax} \Big( w_i \cdot w_j \Big)$. This shows that the loss of Word2Vec is just another form for cross entropy between the predicted and actual word distributions found in the context of word $i$. However the authors of GloVe say that cross entropy models long-tailed distributions poorly. Additionally, the cross-entropy here is weighted with factor $X_i$ which results from streaming over all data equally; so a word appearing $n$ times contributes to the loss $n$ times. 
+However, there is no inherent justification for streaming across all words equally. In fact, GloVe computes differences between unnormalized probabilities, contrary to Word2Vec (Kurita, 2018). 
+
+
+\subsection{Motivation for GloVe}
+
+Previous models using global counts, such as Latent Semantic Analysis (LSA) produced word embeddings that lacked the interesting vector analogical property of word vectors produced by Word2Vec. Thus, they failed to capture ``dimensions of meaning" such as gender, grammar tense, and plurality, disabling downstream models from easily extracting meaning from those word vectors (Kurita, 2018). 
+
+Building from past failures while avoiding Word2Vec's local context problems, GloVe instead uses a principled and explicit approach for learning these ``dimensions of meaning."
+
+
+\subsection{Describing GloVe}
+
+\subsubsection{Notation in GloVe}
+
+Let $X$ be the matrix of word co-occurrence counts; let $X_{ij}$ be the $ij$-th entry $X$ that counts how many times any word appears in the context of word $i$, and let $P_{ij} = P(j \; | \; i) = \frac {X_{ij}} {X_i}$ be the probability that word $j$ appears in the context of word $i$. 
+
+\subsubsection{Meaning Extraction Using Co-Occurrence Counts}
+
+GloVe uses a co-occurrence matrix that describes how words co-occur within a fixed sliding window, relying on the assumption that counts and co-occurrences can reveal word meaning. 
+
+From Pennington et al. (2014) consider two words $w_i =$ ``ice" and $w_j = $ ``steam" and a third word $\Tilde{w}_k =$ ``solid". 
