@@ -21,6 +21,11 @@
 
 \begin{document}
 	\begin{titlingpage}
+	
+	
+	% Ana: set up animation settings -----------------
+   %\animategraphics[autoplay,loop,height=5cm]{1}{imgs/rnn_step1_animation.png}{0}{47-1}
+	
 	% Ana: Making linespread on title page larger
 	\linespread{1.5}
 	\tikz[remember picture,overlay] \node[opacity=1,inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{imgs/background.png}};
@@ -47,7 +52,10 @@ and the Australian Mathematical Sciences Institute.
 \input{LanguageModels.tex}
 \input{Word2Vec.tex}
 \input{GloVe.tex}
+\input{RNN_LSTM_CNN.tex}
 
+\appendix
+\input{Appendix_Backprop.tex}
 % ----------------------------------------------------------------
 % Report End
 

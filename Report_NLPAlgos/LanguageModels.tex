@@ -47,21 +47,24 @@ All neural network representations rely on a structure called a neuron, which is
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{neuron.png}
+\includegraphics[width=0.35\textwidth]{neuron.png}
 \caption{Neuron. From \emph{Applying Unsupervised Machine Learning to Sequence Labeling}, by Jacob, 2019. \url{https://medium.com/mosaix/deep-text-representation-for-sequence-labeling-2f2e605ed9d}. Copyright n.d. by n.d.}
 \end{figure}
 
 Many NLP applications using neural networks feed in word tokens that is transformed based on its context words, resulting in an updated version of the word embedding (Smith, 2019). Embeddings are fed as parameters or weights into a neural network which \emph{optimizes} them to best fit the text by minimizing a continuous loss function using gradient-descent based algorithms. Every neural network representation consists of three components (Ruder, 2016):
 
-1. \textbf{Embedding Layer}: this layer creates word embeddings by multiplying an index vector with a word vector matrix. 
+\begin{enumerate}
+    \item \textbf{Embedding Layer}: this layer creates word embeddings by multiplying an index vector with a word vector matrix. 
+    
+    \item \textbf{Intermediate Layer(s)}: multiple layers are used to create a fully-connected layer that applies a non-linearity function (like hyperbolic tangent or sigmoid) to the concatenation of word embeddings. 
+    
+    \item \textbf{Softmax Layer}: the last layer normalizes the word embedding matrix to produce a probability distribution over words in the vocabulary. Specifically, the softmax layer calculates the probability of word vector $w_t$ as follows: 
+    $$
+    P \Big(w_t \; | \; w_{t-1}, ..., w_{t-n+1} \Big) = \frac {\exp{ \Big(h^T \cdot v_{w_t}' \Big) }} {\sum_{w_i \in V} \exp{ \Big(h^T \cdot v_{w_i}' \Big) }}
+    $$
+    where $V = $ vocabulary of a corpus, $h = $ output vector of the hidden layer, and $v_w' = $ the output embedding of word $w$. 
+\end{enumerate}
 
-2. \textbf{Intermediate Layer(s)}: multiple layers are used to create a fully-connected layer that applies a non-linearity function (like hyperbolic tangent or sigmoid) to the concatenation of word embeddings. 
-
-3. \textbf{Softmax Layer}: the last layer normalizes the word embedding matrix to produce a probability distribution over words in the vocabulary. Specifically, the softmax layer calculates the probability of word vector $w_t$ as follows: 
-$$
-P \Big(w_t \; | \; w_{t-1}, ..., w_{t-n+1} \Big) = \frac {\exp{ \Big(h^T \cdot v_{w_t}' \Big) }} {\sum_{w_i \in V} \exp{ \Big(h^T \cdot v_{w_i}' \Big) }}
-$$
-where $V = $ vocabulary of a corpus, $h = $ output vector of the hidden layer, and $v_w' = $ the output embedding of word $w$. 
 
 \subsubsection{Solution to Curse of Dimensionality: Neural Model and Continuous Vector Representations}
 
@@ -70,6 +73,8 @@ The $n$-gram model seeks to remedy the \emph{curse of dimensionality} by combini
 However, Bengio et al. (2003) developed a neural probabilistic language model to learn a distributed representation for words to allow the model to generalize to unseen data. The neural model does two tasks simultaneously; (1) it learns a distributed representation for each word, and also (2) it learns the probability distribution of word sequences \emph{as a function of} the distributed representations. The model generalizes to unseen data successfully because unseen word sequences get a high probability if containing words that are similar to words that were already seen.  
 
 Advantageously, this model can capture longer contexts better than the $n$-gram, which is limited to short contexts. As a result of continuous word vector representations, the learned probability function's parameters increase only linearly instead of exponentially, with the vocabulary size, and linearly, with vector dimension, thus resolving the curse of dimensionality (Bengio et al., 2003). 
+
+
 
 \subsection{Bidirectional Language Model}
 
