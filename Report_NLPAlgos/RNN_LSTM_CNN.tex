@@ -25,7 +25,7 @@ Nguyen (2018b) describes the basic workflow of RNNs as follows:
     \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{imgs/rnn_step1.png}
-    \caption{RNN Processing Inputs One at a Time. From \emph{Illustrated Guide to Recurrent Neural Networks}, by Nguyen, 2018. \url{https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21}. Copyright 2018 by Nguyen.}
+    \caption{RNN Processing Inputs One at a Time. From \emph{Illustrated Guide to Recurrent Neural Networks}, by Nguyen, 2018.\url{https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21}. Copyright 2018 by Nguyen.}
     \end{figure}
     
     \item While processing the inputs in the above step, the RNN passes previous hidden state to the next step of the sequence. The hidden state serves as memory for the network by holding previous information. 
@@ -60,6 +60,7 @@ The \textbf{short-term memory problem} occurs due to the \textbf{vanishing gradi
 
 
 \subsubsection{Describing LSTMs}
+A long-short term memory network (LSTM) is a type of RNN that sequentially extracts information from each word in a sentence and embeds the information into a semantic vector. 
 
 Long-short term memory networks (LSTM) learn long-term information by design, contrary to RNNs. LSTMs use features such as \textbf{cell state} and \textbf{gates} to regulate information flow from earlier time steps to later time steps. The gates are separate neural networks that decide which information to add or remove from the cell state, thus explicitly letting the LSTM ``remember" or ``forget" information (Nguyen, 2018b). Simply, LSTMs differ from RNNs in their repeating module since the standard RNN contains a single $\text{tanh}$ activation layer while the LSTM contains the four neural network layers (gates). This difference is illustrated in Figure 11.
 
@@ -70,15 +71,55 @@ Long-short term memory networks (LSTM) learn long-term information by design, co
 \caption{RNN's (top figure) repeating module has a single layer while LSTM's (bottom figure) repeating module has several interaction layers or gates. Yellow box denotes a \emph{neural network layer}; pink circle denotes \emph{pointwise operation} between vectors; single arrow denotes \emph{vector transfer}; two converging arrows mean \emph{concatenation operation}, and two diverging arrows mean \emph{copy operation}. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Copyright 2015 by Colah.}
 \end{figure}
 
+Since LSTMs can accumulate increasingly richer information while parsing the sentence, by the time the last word is reached, the hidden layer of the network provides a \textbf{semantic representation} of the entire sentence (Palangi et al., 2016). 
+
 A core idea in an LSTM is the \textbf{cell state}, which is shown in Figure 11 as the topmost line with the gates merging into it. For example, for a language predicting the next word based on previous ones, the cell state might include the gender of the present subject so that the correct pronouns are used. When a new subject is observed, the cell state should forget the old subject's gender and retain the new one (Colah, 2015). 
 
 From Nguyen (2018b), the gates (neural network layers) regulating information are as follows: 
 
 \begin{itemize}
     \item \textbf{Forget Gate: } the forget gate decides information to discard or keep. The previous hidden state $h_{t-1}$ and current input $x_t$ are passed through the sigmoid nonlinearity function. The forget gate outputs a number between $0$ and $1$ for each number in the cell state $C_{t-1}$; values closer to $0$ indicate the forget gate should discard the information and values closer to $1$ should be kept. 
+    $$
+    f_t = \sigma \Big( W_f \cdot [h_{t-1}, x_t] + b_f \Big)
+    $$
+    where $f_t$ denotes the forget gate for time $t$, $\sigma(\cdot)$ denotes the sigmoid, $W_f$ denotes the weight matrix at the forget layer, and $b_f$ denotes the forget gate's bias term. 
     
-    \item \textbf{Input Gate: } the input gate updates the cell state
+    \item \textbf{Input Gate: } the input gate $i_t$ updates the cell state $C_t$, similarly to the forget gate. Previous hidden state $h_{t-1}$ and current input $x_t$ are passed though a signmoid function which decides values to update by normalizing vector cells to be between $0$ and $1$. The input gate is later used with the cell state to decide how values are updated. 
+    $$
+    i_t = \sigma \Big( W_i \cdot [h_{t-1}, x_t] + b_i \Big)
+    $$
+    where $i_t$ denotes the input gate for time $t$, $\sigma(\cdot)$ denotes the sigmoid, $W_i$ denotes the weight matrix at the input layer, and $b_i$ denotes the input gate's bias term. 
+    
+    \item \textbf{Cell State: } Current cell state $C_t$ is calculated similarly by taking in $h_{t-1}$ and $x_t$ and normalizing this to be between $-1$ and $1$ via a hyperbolic tangent nonlinearity:
+    $$
+    C_t = \tanh \Big( W_C \cdot [h_{t-1}, x_t] + b_C \Big)
+    $$
+    where $C_t$ denotes the cell state for time $t$, $\tanh(\cdot)$ denotes the hyperbolic tangent, $W_C$ denotes the weight matrix at the cell state layer, and $b_C$ denotes the cell state's bias term. 
+    Next, the current cell state $C_t$ is pointwise multiplied by the input gate vector $i_t$ and the previous cell state $C_{t-1}$ is pointwise  multiplied by the forget gate vector $f_t$. The results are added to decide how information is remembered in the LSTM:
+    $$
+    C_t = f_t \cdot C_{t-1} + i_t \cdot C_t
+    $$
+    
+    \item \textbf{Output Gate: }the output gate determines the next hidden state by multiplying the previous output state by the cell state that is filtered by the hyperbolic tangent. 
+    $$
+    o_t = \sigma \Big( W_o \cdot [h_{t-1}, x_t] + b_o \Big) \\
+    h_t = o_t \cdot \tanh(C_t)
+    $$
+    
 \end{itemize}
+
+
+
+\begin{SCfigure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{lstm_outputGate.png} 
+  \caption{\textbf{Output Gate Calculation: } 
+  $$\begin{array}{ll}
+    o_t = \sigma \Big( W_o \cdot [h_{t-1}, x_t] + b_o \Big) \\
+    h_t = o_t \cdot \tanh(C_t)
+  \end{array}$$}
+\end{SCfigure}
+    
 
 \subsection{Gated Recurrent Networks (GRU)}
 
