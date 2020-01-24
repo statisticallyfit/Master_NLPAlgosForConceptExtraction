@@ -46,9 +46,12 @@ A neural network is a function from vectors to vectors.
 All neural network representations rely on a structure called a neuron, which is expressed as a linear formula: $W \cdot x + b$. By applying a nonlinear function $f(\cdot)$ to this equation and by incorporating many hidden layers and by stacking neurons together, a neural network can model any function. 
 
 \begin{figure}[h]
+\vspace{-5pt}
 \centering
 \includegraphics[width=0.35\textwidth]{neuron.png}
-\caption{Neuron. From \emph{Applying Unsupervised Machine Learning to Sequence Labeling}, by Jacob, 2019. \url{https://medium.com/mosaix/deep-text-representation-for-sequence-labeling-2f2e605ed9d}. Copyright n.d. by n.d.}
+\vspace{-5pt}
+\caption{\footnotesize Neuron. From \emph{Applying Unsupervised Machine Learning to Sequence Labeling}, by Jacob, 2019. \url{https://medium.com/mosaix/deep-text-representation-for-sequence-labeling-2f2e605ed9d}. Copyright n.d. by n.d.}
+\vspace{-5pt}
 \end{figure}
 
 Many NLP applications using neural networks feed in word tokens that is transformed based on its context words, resulting in an updated version of the word embedding (Smith, 2019). Embeddings are fed as parameters or weights into a neural network which \emph{optimizes} them to best fit the text by minimizing a continuous loss function using gradient-descent based algorithms. Every neural network representation consists of three components (Ruder, 2016):
@@ -104,9 +107,12 @@ where $\overrightarrow{\theta}$ represents additional parameters (Peters et al.,
 
 
 \begin{figure}[h]
+\vspace{-5pt}
 \centering
 \includegraphics[width=0.6\textwidth]{bidirectional_languagemodel_banking.png}
-\caption{Example Bidirectional Language Model. From \emph{Word2Vec Overview With Vectors}, by CS224n: Natural Language Processing with Deep Learning (Stanford), 2018. \url{https://sangminwoo.github.io/2019-08-28-cs224n-lec1/}. Copyright n.d. by n.d.}
+\vspace{-5pt}
+\caption{\footnotesize Example Bidirectional Language Model. From \emph{Word2Vec Overview With Vectors}, by CS224n: Natural Language Processing with Deep Learning (Stanford), 2018. \url{https://sangminwoo.github.io/2019-08-28-cs224n-lec1/}. Copyright n.d. by n.d.}
+\vspace{-5pt}
 \end{figure}
 
 Akbik et al. (2018) use the hidden states of a bidirectional recurrent neural network to create contextualized word representations. 

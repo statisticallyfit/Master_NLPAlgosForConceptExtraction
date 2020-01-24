@@ -15,8 +15,15 @@
 \usepackage[demo]{graphicx}
 \graphicspath{ {./imgs/} }
 % Ana: setting up for text to be on side of the image, on the right
-\usepackage{sidecap}
-\sidecaptionvpos{figure}{c}
+\usepackage{float}
+\usepackage{wrapfig}
+%\setlength{\intextsep}{0mm}
+%\floatstyle{ruled}
+\newfloat{program}{!th}{lop}
+\floatname{program}{Program}
+% \usepackage{placeins} % for \FloatBarrier
+%\usepackage{sidecap}
+%\sidecaptionvpos{figure}{c}
 
 
 % Ana: Changed margin size: 
