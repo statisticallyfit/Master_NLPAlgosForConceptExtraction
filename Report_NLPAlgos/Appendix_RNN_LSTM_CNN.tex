@@ -135,6 +135,7 @@ $$
 
 
 %%% The output gate image wrapping ---------------------
+\clearpage
 \begin{program}
 \begin{wrapfigure}{L}{0.45\textwidth}
 \vspace{-20pt}
@@ -148,16 +149,35 @@ $$
 
 \textbf{Output Gate: }the output gate determines the next hidden state by multiplying the previous output state by the cell state that is filtered by the hyperbolic tangent.
 $$
+\begin{array}{ll}
 o_t = \sigma \Big( W_o \cdot [h_{t-1}, x_t] + b_o \Big) \\
 h_t = o_t \cdot \tanh(C_t)
-$$
+\end{array}
+$$ 
+\newline\newline\newline\newline\newline
 \end{program}
 
 
 
-
-
-
 \subsection{Gated Recurrent Networks (GRU)}
+
+The gated recurrent unit (GRU) from Cho et al. (2014) is a type of LSTM that ``combines the forget and input gates into a single \textbf{update gate}" and ``merges the cell state and hidden state" (Colah, 2015), resulting with only the reset gate $r_t$ and update gate $z_t$ (Nguyen, 2018b). 
+
+The \textbf{update gate} $z_t$ controls how much information from previous hidden state contributes to current hidden state, acting like a memory cell in the LSTM to remember long-term dependencies (Cho et al., 2014). 
+
+The \textbf{reset gate} $r_t$ signals the hidden state on how to forget previous information. When the reset gate is close to $0$, the initialized hidden state $\Tilde{h}_t$ must ignore previous hidden state $h_{t-1}$ and reset with the current input $x_t$ only. Intuitively, this allows the activation hidden state $h_t$ to forget any irrelevant information for the future (Cho et al., 2014). 
+
+\begin{figure}[h]
+\vspace{-5pt}
+\centering
+\includegraphics[width=0.8\textwidth]{imgs/gru_withformula.png}
+\vspace{-5pt}
+\caption{\footnotesize The GRU Cell with Gates. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Copyright 2015 by Colah.}
+\vspace{-5pt}
+\end{figure}
+
+Nguyen (2018b) notes that since GRU's have fewer tensor operations, they are more efficient than LSTMs during training. 
+The GRU adaptively remembers and forgets because each hidden unit has separate reset and update gates so each hidden unit can capture dependencies over different time scales. Frequently active reset gates help the GRU remember short-term dependencies while frequently active update gates help the GRU note long-term dependencies (Cho et al., 2014). 
+
 
 \subsection{Convolutional Neural Networks (CNN)}

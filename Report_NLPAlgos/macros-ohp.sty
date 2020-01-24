@@ -1,4 +1,5 @@
 \usepackage{epsfig,pict2e}
+\usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage[tc]{titlepic}
 %\usepackage{amsmath,amsfonts,amssymb,relsize,geometry}
@@ -12,7 +13,7 @@
 \usepackage[english]{babel}
 % Ana: adding graphics package for images 
 \usepackage{graphics}
-\usepackage[demo]{graphicx}
+\usepackage{graphicx}
 \graphicspath{ {./imgs/} }
 % Ana: setting up for text to be on side of the image, on the right
 \usepackage{float}
@@ -86,11 +87,26 @@
 
 
 % Code setup -----------------------------------------------------
-
-
 \usepackage{minted}
+\usepackage{xcolor}
 \usemintedstyle{manni}
 \setmonofont{Inconsolata}
+
+\setlength{\parindent}{0pt}
+\setlength{\OuterFrameSep}{0pt}
+
+% For larger line numbers: 
+\renewcommand\theFancyVerbLine{\large\arabic{FancyVerbLine}}
+
+% Create manni style background color
+\definecolor{mannibg}{HTML}{f0f3f3}
+
+%\newminted[pythonCode]{python}{linenos=true, texcl=true, bgcolor=mannibg}
+
+\newmintedfile[pythonCodeFile]{python}{style=manni, bgcolor=mannibg}
+% TODO: how to do left margin in the code style? 
+
+
 
 % Hyperlink / URL setup ------------------------------
 \usepackage{hyperref}
