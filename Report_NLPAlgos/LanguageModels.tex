@@ -1,4 +1,4 @@
-\section{Language Models}
+\section{Language Models} \label{LanguageModels}
 
 A language model takes a sequence of word vectors and outputs a sequence of predicted word vectors by learning a probability distribution over words in a vocabulary. In representation terms, the ``vector representation of a word depends on the context vector representation" (Ibrahim, 2019).
 
@@ -26,7 +26,7 @@ $$
 
 There are several kinds of language models. 
 
-\subsection{$n$-gram Language Model}
+\subsection{N-gram Language Model}
 
 An $n$-gram is a sequence of $n$ words. The $n$-gram language model is one of the simplest models that assigns probabilities to sentences and word sequences. It calculates a word's probability based on the frequencies of its constituent $n$-grams, taking just the preceding $n-1$ words as context instead of the entire corpus (Ruder, 2016): 
 $$

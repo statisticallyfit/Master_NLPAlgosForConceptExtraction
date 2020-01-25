@@ -1,4 +1,4 @@
-\section{GloVe Model}
+\section{GloVe Model} \label{Glove}
 
 The Global Vectors for Word Representation (GloVe) model is an unsupervised learning algorithm that aims to capture meaning in a semantic vector space using global count statistics instead of only local contextual information (Pennington et al., 2014). The GloVe authors show that it is the \emph{ratio} of co-occurrence probabilities of two words rather than their actual probabilities that contains meaning and they carve out this information as vector offsets. 
 
@@ -58,7 +58,7 @@ $$
 
 \subsubsection{Comparing Performance of Word2Vec and GloVe}
 
-Figure 6 from Pennington et al. (2014) shows that GloVe's learned word embeddings had higher prediction accuracy over both those of Skip-Gram and CBOW (using negative sampling) on tasks like word analogy and named entity recognition. 
+\cref{fig:GloveVsWord2vec} from Pennington et al. (2014) shows that GloVe's learned word embeddings had higher prediction accuracy over both those of Skip-Gram and CBOW (using negative sampling) on tasks like word analogy and named entity recognition. 
 
 \begin{figure}[h]
 \vspace{-5pt}
@@ -67,4 +67,5 @@ Figure 6 from Pennington et al. (2014) shows that GloVe's learned word embedding
 \vspace{-5pt}
 \caption{\footnotesize Overall accuracy on word analogy task as a function of training time, which is governed by the number of iterations for GloVe and by the number of negative samples for CBOW (a) and skip-gram (b). Pennington et al. (2014) train 300-dimensional vectors on the same 6B token corpus from Wikipedia and use a symmetric context window of size 10. From \emph{GloVe: Global Vectors for Word Representation}, by Pennington et al., 2014. \url{https://nlp.stanford.edu/pubs/glove.pdf}. Copyright 2014 by Pennington et al.}
 \vspace{-5pt}
+\label{fig:GloveVsWord2vec}
 \end{figure}

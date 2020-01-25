@@ -1,4 +1,4 @@
-\section{Word2Vec Model}
+\section{Word2Vec Model} \label{Word2Vec}
 
 \subsection{Word Embedding Representations: Count-Based vs. Context-Based}
  
@@ -35,7 +35,7 @@ The Skip-Gram model predicts context words given a single target word. It uses a
 
 Consider the following sentence from Weng (2017): ``The man who passes the sentence should swing the sword." Using a context window size of $c = 5$ and target word ``swing", the Skip-Gram should learn to predict the context words $\{\texttt{"sentence"}, \texttt{"should"}, \texttt{"the"}, \texttt{"sword"} \}$, and so the target-context word pairs fed into the model for training are: (\texttt{"swing"}, \texttt{"sentence"}), (\texttt{"swing"}, \texttt{"should"}), (\texttt{"swing"}, \texttt{"the"}), and (\texttt{"swing"}, \texttt{"sword"}). 
 
-The Skip-Gram is illustrated below. 
+The Skip-Gram is illustrated in \cref{fig:SkipGram}
 
 \begin{figure}[h]
 \vspace{-5pt}
@@ -43,24 +43,28 @@ The Skip-Gram is illustrated below.
 \includegraphics[width=0.6\textwidth]{imgs/skipgram_image.png}
 \vspace{-5pt}
 \caption{\footnotesize Skip-Gram Model; simplified version, with one input target word and one output context word. From \emph{Learning Word Embeddings}, by Lilian Weng, 2017. \url{https://lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html}. Copyright n.d. by n.d.}
+\label{fig:SkipGram}
 \vspace{-5pt}
 \end{figure}
 
 \subsubsection{Forward and Backward Pass for Skip-Gram}
 
-According to Figure 4 above, the procedure for learning word vectors is: 
+According to \cref{fig:SkipGram}, the procedure for learning word vectors is: 
+\begin{enumerate}
+    \item the input word $w_i$ and output word $w_j$ are encoded as one-hot vectors, $\overrightarrow{x}$ and $\overrightarrow{y}$ respectively. (For Skip-Gram, $\overrightarrow{x}$ is the target vector and $\overrightarrow{y}$ is the context vector). 
+    
+    \item A randomly initialized word embedding matrix $W$ with size $V \times N$ at the input $\rightarrow$ hidden layer is multiplied with $\overrightarrow{x}$ to give the $N$-dimensional embedding for target word $w_i$. This embedding resides in the $i$-th row of $W$ and is considered as the hidden layer of the model. 
+    
+    \item Next, the hidden layer is multiplied by weight matrix $W'$ with size $N \times V$ to produce the one-hot encoded output vector, $\overrightarrow{y}$. \textbf{NOTE: }the output context matrix $W'$ encodes words as context and is distinct from the embedding matrix $W$. 
+    
+    \item The result of the above multiplication is sent through the softmax layer to create a probability distribution over the words. 
+    
+    \item Errors are obtained by subtracting the output vector with the target vector. 
+    
+    \item The error vector is backward-propagated through the neural network to update the weight matrix. The procedure continues until errors are small enough. 
+    
+\end{enumerate}
 
-1. the input word $w_i$ and output word $w_j$ are encoded as one-hot vectors, $\overrightarrow{x}$ and $\overrightarrow{y}$ respectively. (For Skip-Gram, $\overrightarrow{x}$ is the target vector and $\overrightarrow{y}$ is the context vector). 
-
-2. A randomly initialized word embedding matrix $W$ with size $V \times N$ at the input $\rightarrow$ hidden layer is multiplied with $\overrightarrow{x}$ to give the $N$-dimensional embedding for target word $w_i$. This embedding resides in the $i$-th row of $W$ and is considered as the hidden layer of the model. 
-
-3. Next, the hidden layer is multiplied by weight matrix $W'$ with size $N \times V$ to produce the one-hot encoded output vector, $\overrightarrow{y}$. \textbf{NOTE: }the output context matrix $W'$ encodes words as context and is distinct from the embedding matrix $W$. 
-
-4. The result of the above multiplication is sent through the softmax layer to create a probability distribution over the words. 
-
-5. Errors are obtained by subtracting the output vector with the target vector. 
-
-6. The error vector is backward-propagated through the neural network to update the weight matrix. The procedure continues until errors are small enough. 
 
 \subsubsection{Loss Function for Skip-Gram}
 
@@ -82,14 +86,15 @@ where $w_t$ is the inputted target word, $w_{t+j}$ is the predicted context word
 
 The continuous bag of words model (CBOW) is opposite of the Skip-Gram since it predicts the \emph{target} word based on a \emph{context} word. In the general case, CBOW receives a window of $n$ context words around the target word $w_t$ at each time step $t$ and tries to predict the target word. The CBOW is called ``continuous" bag-of-words since it uses continuous distributed representations of the context words whose order is not important (Mikolov et al., 2013b). 
 
-The CBOW is illustrated below: 
+The CBOW is illustrated in \cref{fig:CBOW}: 
 
-\begin{figure}[h]
+\begin{figure}[h] 
 \vspace{-5pt}
 \centering
 \includegraphics[width=0.6\textwidth]{imgs/cbow.png}
 \vspace{-5pt}
 \caption{\footnotesize CBOW Model with several one-hot encoded context words at the input layer and one target word at the output layer. From \emph{Learning Word Embeddings}, by Lilian Weng, 2017. \url{https://lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html}. Copyright n.d. by n.d.}
+\label{fig:CBOW}
 \vspace{-5pt}
 \end{figure}
 
