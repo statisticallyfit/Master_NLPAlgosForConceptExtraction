@@ -1,4 +1,4 @@
-\section{Language Models} \label{LanguageModels}
+\section{Language Models} \label{sec:LanguageModels}
 
 A language model takes a sequence of word vectors and outputs a sequence of predicted word vectors by learning a probability distribution over words in a vocabulary. In representation terms, the ``vector representation of a word depends on the context vector representation" (Ibrahim, 2019).
 
@@ -26,24 +26,24 @@ $$
 
 There are several kinds of language models. 
 
-\subsection{N-gram Language Model}
+\subsection{N-gram Language Model} \label{sec:NGramLM}
 
 An $n$-gram is a sequence of $n$ words. The $n$-gram language model is one of the simplest models that assigns probabilities to sentences and word sequences. It calculates a word's probability based on the frequencies of its constituent $n$-grams, taking just the preceding $n-1$ words as context instead of the entire corpus (Ruder, 2016): 
 $$
 P \Big(w_t \; | \; w_{t-1}, ..., w_{t-n+1} \Big) = \frac {count(w_{t-n+1},...,w_{t-1},w_t)} {count(w_{t-n+1},...,w_{t-1})}
 $$
 
-\subsection{Neural Network Language Model}
+\subsection{Neural Network Language Model} \label{sec:NeuralLM}
 
-\subsubsection{Curse of Dimensionality}
+\subsubsection{Curse of Dimensionality} \label{sec:CurseDim}
 
 Bengio et al. (2003) defines the \emph{curse of dimensionality} in NLP as how a word sequence may differ from the training set of word sequences. This appears when modeling the joint distribution between discrete random variables (like words in a sentence). 
 
-\subsubsection{Key Concept: Neural Network Representation}
+\subsubsection{Key Concept: Neural Network Representation} \label{sec:NeuralNetRepr}
 
 A neural network is a function from vectors to vectors. 
 
-All neural network representations rely on a structure called a neuron, which is expressed as a linear formula: $W \cdot x + b$. By applying a nonlinear function $f(\cdot)$ to this equation and by incorporating many hidden layers and by stacking neurons together, a neural network can model any function. 
+All neural network representations rely on a structure called a neuron, which is expressed as a linear formula: $W \cdot x + b$. By applying a nonlinear function $f(\cdot)$ to this equation and by incorporating many hidden layers and by stacking neurons together, a neural network can model any function. A neuron is shown in \cref{fig:neuron}.
 
 \begin{figure}[h]
 \vspace{-5pt}
@@ -52,6 +52,7 @@ All neural network representations rely on a structure called a neuron, which is
 \vspace{-5pt}
 \caption{\footnotesize Neuron. From \emph{Applying Unsupervised Machine Learning to Sequence Labeling}, by Jacob, 2019. \url{https://medium.com/mosaix/deep-text-representation-for-sequence-labeling-2f2e605ed9d}. Copyright n.d. by n.d.}
 \vspace{-5pt}
+\label{fig:neuron}
 \end{figure}
 
 Many NLP applications using neural networks feed in word tokens that is transformed based on its context words, resulting in an updated version of the word embedding (Smith, 2019). Embeddings are fed as parameters or weights into a neural network which \emph{optimizes} them to best fit the text by minimizing a continuous loss function using gradient-descent based algorithms. Every neural network representation consists of three components (Ruder, 2016):
@@ -69,7 +70,7 @@ Many NLP applications using neural networks feed in word tokens that is transfor
 \end{enumerate}
 
 
-\subsubsection{Solution to Curse of Dimensionality: Neural Model and Continuous Vector Representations}
+\subsubsection{Solution to Curse of Dimensionality: Neural Model and Continuous Vector Representations} \label{sec:SolutionToCurseDim}
 
 The $n$-gram model seeks to remedy the \emph{curse of dimensionality} by combining short overlapping word sequences seen in the training set. 
 
@@ -77,12 +78,12 @@ However, Bengio et al. (2003) developed a neural probabilistic language model to
 
 Advantageously, this model can capture longer contexts better than the $n$-gram, which is limited to short contexts. As a result of continuous word vector representations, the learned probability function's parameters increase linearly not exponentially with the vocabulary size, and they increase linearly with vector dimension, thus resolving the curse of dimensionality (Bengio et al., 2003).  
 
-For more information, \nameref{Appendix_Backprop} describes key concepts and algorithms for training neural networks to learn parameters. 
+For more information, \nameref{app:Appendix_Backprop} describes key concepts and algorithms for training neural networks to learn parameters. 
 
 
-\subsection{Bidirectional Language Model}
+\subsection{Bidirectional Language Model} \label{sec:BidirectionalLM}
 
-\subsubsection{Forward Language Model}
+\subsubsection{Forward Language Model} \label{sec:ForwardLM}
 
 A general language model predicts a next word given its context words, $P(\textit{Word} \: | \: \textit{Context})$. 
 
@@ -91,7 +92,7 @@ $$
 P \Big(t_1, t_2, ..., t_N \Big) = \prod_{k=1}^N P \Big(t_k \; | \; t_1, t_2, ..., t_{k-1} \Big)
 $$
 
-\subsubsection{Backward Language Model}
+\subsubsection{Backward Language Model} \label{sec:BackwardLM}
 
 A backward language model is similar to a forward model excepts it predicts the current token $t_k$ conditional on future context tokens:
 $$
@@ -100,7 +101,7 @@ $$
 
 \subsubsection{Combining Forward and Backward}
 
-A bidirectional language model combines the forward and backward language models and uses maximum likelihood estimation to \emph{jointly} maximize the log likelihood of the forward and backward directions: 
+A bidirectional language model such as in \cref{fig:bidirectionalLM} combines the forward and backward language models and uses maximum likelihood estimation to \emph{jointly} maximize the log likelihood of the forward and backward directions: 
 $$
 \sum_{k=1}^N \Big( \text{log} \Big( P \Big(t_k \; | \; t_1,...,t_{k-1}; \; \overrightarrow{\theta} \Big) + \text{log} \Big( P \Big(t_k \; | \; t_{k+1}, t_{k+2}, ..., t_N; \; \overrightarrow{\theta} \Big) \Big)
 $$
@@ -114,6 +115,7 @@ where $\overrightarrow{\theta}$ represents additional parameters (Peters et al.,
 \vspace{-5pt}
 \caption{\footnotesize Example Bidirectional Language Model. From \emph{Word2Vec Overview With Vectors}, by CS224n: Natural Language Processing with Deep Learning (Stanford), 2018. \url{https://sangminwoo.github.io/2019-08-28-cs224n-lec1/}. Copyright n.d. by n.d.}
 \vspace{-5pt}
+\label{fig:bidirectionalLM}
 \end{figure}
 
 Akbik et al. (2018) use the hidden states of a bidirectional recurrent neural network to create contextualized word representations. 

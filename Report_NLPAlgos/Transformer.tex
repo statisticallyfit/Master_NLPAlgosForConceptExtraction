@@ -1,4 +1,4 @@
-\section{Transformer Model} \label{Transformer}
+\section{Transformer Model} \label{sec:Transformer}
 
 \begin{figure}[h]
 \vspace{-10pt}
@@ -7,15 +7,16 @@
 \vspace{-10pt}
 \caption{\footnotesize Transformer model architecture. The gray boxes hold Encoder and Decoder layers, respectively, which are each repeated $N=6$ times. From \emph{Attention? Attention}, by Weng, 2018. \url{https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html}. Copyright 2018 by Weng.}
 \vspace{-5pt}
+\label{fig:transformer}
 \end{figure}
 
-The \textbf{Transformer model} introduced by Vaswani et al. (2017) is a neural machine translation (NMT) model that proves more parallelizable than seq-to-seq models with attention. Rather than using recurrent neural networks (RNNs) combined with the \textbf{attention mechanism}, the Transformer sequence-to-sequence model uses only a \textbf{self attention mechanism} to attend to different word tokens in an input sentence and thus generate a sequence of contextual embeddings. 
+The \textbf{Transformer model} introduced by Vaswani et al. (2017) is a neural machine translation (NMT) model that proves more parallelizable than seq-to-seq models with attention. Rather than using recurrent neural networks (RNNs) combined with the \textbf{attention mechanism}, the Transformer sequence-to-sequence model uses only a \textbf{self attention mechanism} to attend to different word tokens in an input sentence and thus generate a sequence of contextual embeddings. It is illustrated in \cref{fig:transformer}.
 
 
 
 
 
-\subsection{Self-Attention}
+\subsection{Self-Attention} \label{sec:SelfAttention}
 
 \subsubsection{Motivation for Self-Attention}
 
@@ -158,7 +159,7 @@ Using notation from Vaswani et al. (2017) and Alammar (2018b),
 \end{enumerate}
 
 
-\subsection{Multi-Head Attention}
+\subsection{Multi-Head Attention} \label{sec:MultiHeadAttention}
 
 \subsubsection{Motivation for Multi-Head Attention}
 
@@ -200,7 +201,7 @@ Using notation from Vaswani et al. (2017) and Alammar (2018b):
 
 
 
-\subsection{Positional Encodings}
+\subsection{Positional Encodings} \label{sec:PosEncodings}
 
 \subsubsection{Motivation for Positional Encodings}
 
@@ -223,7 +224,7 @@ $$
 where $pos = $ the position, $i = $ the dimension.
 
 
-\subsection{Position-wise Feed Forward Layer}
+\subsection{Position-wise Feed Forward Layer} \label{sec:PositionwiseFFNLayers}
 
 A \textbf{positionwise feed-forward layer} is a kind of feed-forward neural network (FFN) (where inputs are moved only forward). It is ``position-wise" because this FFN is applied to each position separately and identically. 
 
@@ -232,7 +233,7 @@ $$
 FFN(x) = max(0, x W_1 + b_1) W_2 + b_2
 $$
 
-\subsection{Residual Connection}
+\subsection{Residual Connection} \label{sec:ResidualConnections}
 
 A \textbf{residual connection} serves as a sub-layer in both Encoder and Decoder stacks. Its main function is to add inputs to outputs of a sub-layer, allowing gradients during optimization to flow through a network directly rather than being transformed by nonlinear activations (Raviraja, 2019). It is represented as: 
 $$
@@ -245,19 +246,19 @@ Each sub-layer in the stack, such as self-attention and FFNs, are surrounded by 
 
 
 
-\subsection{Masked Multi-Head Attention}
+\subsection{Masked Multi-Head Attention} \label{sec:MaskedMultiHeadAttention}
 
 The \textbf{masked self attention} is an attention mechanism that forms a sub-layer in the Decoder stack. It uses \textbf{masking} to prevent positions from attending to subsequent positions. Rather, while decoding a word embedding $\overrightarrow{w_i}$, the Decoder is not aware of words  $\overrightarrow{w_{>i}}$ past position $i$. It can only use words $\overrightarrow{w_{\leq i}}$.
 
 Masking is done to render invisible the words $\overrightarrow{w_{>i}}$ so that the Decoder only calculates its output vector from words $\overrightarrow{w_{\leq i}}$ (Ta-Chun, 2018). 
 
-\subsection{Encoder-Decoder Attention}
+\subsection{Encoder-Decoder Attention} \label{sec:EncoderDecoderAttention}
 
 This attention layer differs from attention layers found in either Encoder or Decoder. It is like multi-head self attention but the difference is that the \textbf{encoder-decoder attention layer} creates the query matrix $Q$ from the layer below it (a Decoder self attention layer) and uses the key $K$ and value $V$ matrices from the Encoder stack's output (Alammar, 2018b). 
 
 
 
-\subsection{Encoder}
+\subsection{Encoder} \label{sec:TransformerEncoder}
 
 The Encoder is a \textbf{bidirectional recurrent network (RNN)} consisting of a forward RNN and backward RNN. The forward RNN reads the input sequence $\overrightarrow{x} = \Big\{ x_1,...,x_{T_x} \Big\}$ from left to right to produce a sequence of forward hidden states $\Big\{ \overrightarrow{h_1},..., \overrightarrow{h_{T_x}} \Big\}$. The backward RNN reads the sequence in reverse order, so taking $x_{T_x}$ to $x_1$ and returns a sequence of backward hidden states $\Big\{ \overleftarrow{h_1},..., \overleftarrow{h_{T_x}} \Big\}$. Then, for each word $x_t$ an annotation is obtained by concatenating the corresponding forward hidden state vector $\overrightarrow{h}_t$ with the backward one $\overleftarrow{h}_t$, such that $h_t = \Big \{ \overrightarrow{h}_t^T \; ; \; \overleftarrow{h}_t^T \Big\}^T , \: t=1,...,T_x$. This allows the annotation vector $h_t$ for word $x_t$ to contain contextual information by using previous and latter words (Bahdanau et al., 2016). These annotations are later used in the decoder to compute the context vector. 
 
@@ -280,12 +281,13 @@ A \textbf{residual connection layer} surrounds each of these sub-layers, and thi
 \vspace{-10pt}
 \caption{\footnotesize The layers inside Encoder and Decoder. From \emph{The Illustrated Transformer}, by Alammar, 2018. \url{https://jalammar.github.io/illustrated-transformer/}. Copyright 2018 by Alammar.}
 \vspace{-5pt}
+\label{fig:encDecLayersDetailed}
 \end{figure}
 
 
 
 
-\subsection{Decoder}
+\subsection{Decoder} \label{sec:TransformerDecoder}
 
 
 The Decoder neural network generates hidden states $s_t = \text{Decoder}\Big( s_{t-1}, y_{t-1}, c_t \Big)$ for time steps $t = 1,..., m$ where the context vector $c_t = \sum_{i=1}^n \alpha_{ti} \cdot h_i$ is a sum of the hidden states of the input sentence, weighted by alignment scores, as for the Seq-to-Seq model (Weng, 2018). (Here the arrows denote the direction of the network rather than vector notation.)
@@ -297,12 +299,12 @@ Similarly to the Encoder, the Decoder contains a stack of $N$ Decoder layers, ea
     \item \textbf{positionwise fully-connected feed forward layer}. 
 \end{enumerate}
 
-Like in the Encoder, in between each of these layers is a residual connection followed by layer normalization. 
+Like in the Encoder, in between each of these layers is a residual connection followed by layer normalization. The Encoder and Decoder stack are shown in \cref{fig:encDecLayersDetailed}. 
 
 
 
 
-\subsection{Final Linear and Softmax Layer}
+\subsection{Final Linear and Softmax Layer} \label{sec:TransformerFinalLayer}
 
 
 The Decoder stack outputs a vector of floats which is converted to a word using a Linear layer, followed by a Softmax layer in the Transformer neural network (Alammar, 2018b). 
@@ -317,7 +319,7 @@ To find the predicted word, the cell with highest probability is chosen, and the
 
 
 
-\subsection{Transformer Workflow}
+\subsection{Transformer Workflow} \label{sec:TransformerWorkflow}
 
 Alammar (2018b) describes the procedure governing the Transformer's moving parts as follows: 
 

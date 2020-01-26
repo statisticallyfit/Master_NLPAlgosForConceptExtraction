@@ -1,6 +1,6 @@
-\section{Word2Vec Model} \label{Word2Vec}
+\section{Word2Vec Model} \label{sec:Word2Vec}
 
-\subsection{Word Embedding Representations: Count-Based vs. Context-Based}
+\subsection{Word Embedding Representations: Count-Based vs. Context-Based} \label{sec:CountVsContextModels}
  
 Word embeddings can be learned using two kinds of contextual vector space models: the \textbf{count-based} or \textbf{context-based vector space models}. 
 
@@ -14,11 +14,11 @@ Although \textbf{Word2Vec} and \textbf{GloVe} are predictive and context-based v
 
 \textbf{Word2Vec} is an unsupervised learning algorithm for obtaining word vector representations using a two-layer neural network. Its input is the text corpus and output is the set of feature vectors, as one vector per word. Existing word representations already capture linguistic patterns, allowing algebraic operations to be done on the word vectors in their semantic vector space; for example, $vector(\textit{"King"}) - vector(\textit{"Man"}) + vector(\textit{"Woman"})$ outputs a vector close to the word vector for ``Queen". But Mikolov et al. (2013b) created the \textbf{Skip-Gram} and \textbf{CBOW} as part of \textbf{Word2Vec} to learn word vector representations more efficiently from large data. Previous architectures used fewer words and smaller vector dimensionality, thus reducing the quality of the learned representations. 
 
-\subsubsection{One-Hot Encodings}
+\subsubsection{One-Hot Encodings} \label{sec:OneHotEncodings}
 
 A key concept for what follows is \textbf{one-hot vector encoding}. This is the simplest type of word embedding where each cell in the vector corresponds to a distinct vocabulary word, thus its dimension equals the vocabulary size. A $1$ is placed in the cell marking the position of the word in the vocabulary, and a $0$ is placed in all other cells. However, this can result in high-dimensionality vector representations for large vocabularies, causing increased computational costs, and similarity between categories cannot be represented. 
 
-\subsection{Basic Structure of Skip-Gram and CBOW}
+\subsection{Basic Structure of Skip-Gram and CBOW} \label{sec:BasicSkipGramAndCBOW}
 
 Both the Skip-Gram and CBOW are neural network language models with one hidden layer. 
 
@@ -29,7 +29,7 @@ For Skip-Gram, $w_{t+j}$ is the predicted context word while CBOW considers this
 The vectors $v_w$ and $v'_w$ are two representations of word $w$; vector $v_w$ comes from the rows of the input layer $\rightarrow$ hidden layer weight matrix $W$, and vector $v'_w$ comes from the rows of the hidden layer $\rightarrow$ output layer weight matrix $W'$. We call $v_w$ the \textbf{input vector} and $v'_w$ is the \textbf{output vector} of the word $w$. 
 
 
-\subsubsection{Skip-Gram Model}
+\subsubsection{Skip-Gram Model} \label{sec:SkipGram}
 
 The Skip-Gram model predicts context words given a single target word. It uses a fixed sliding window $c$, or size of the training context, to capture context along a sentence. A target word thus has left and right context words within that sliding window. This target center word is represented as a \textbf{one-hot encoding} that is input to a neural network which updates the vector with values near $1$ in cells corresponding to predicted context words (Weng, 2017).
 
@@ -81,10 +81,10 @@ $$
 where $w_t$ is the inputted target word, $w_{t+j}$ is the predicted context word, and $V$ is the number of vocabulary words. 
 \newline
 
-\nameref{Appendix_SkipGram} applies the Skip-Gram model to neural translation, using the word embedding concept. 
+\nameref{app:Appendix_SkipGram} applies the Skip-Gram model to neural translation, using the word embedding concept. 
 
 
-\subsubsection{Continuous Bag of Words Model (CBOW)}
+\subsubsection{Continuous Bag of Words Model (CBOW)} \label{sec:CBOW}
 
 The continuous bag of words model (CBOW) is opposite of the Skip-Gram since it predicts the \emph{target} word based on a \emph{context} word. In the general case, CBOW receives a window of $n$ context words around the target word $w_t$ at each time step $t$ and tries to predict the target word. The CBOW is called ``continuous" bag-of-words since it uses continuous distributed representations of the context words whose order is not important (Mikolov et al., 2013b). 
 
@@ -131,7 +131,7 @@ $$
 where $w_I$ is the input context word, $w_O$ is the predicted target word, and $V$ is the number of vocabulary words. 
 \newline 
 
-\nameref{Appendix_CBOW} applies the CBOW model to neural translation, using the word embedding concept. 
+\nameref{app:Appendix_CBOW} applies the CBOW model to neural translation, using the word embedding concept. 
 
 \subsection{Phrase-Learning in Word2Vec Using Skip-Gram}
 

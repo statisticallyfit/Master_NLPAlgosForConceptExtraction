@@ -1,6 +1,6 @@
-\section{APPENDIX: Preliminary Building Blocks} \label{Appendix_BasicsRNNLSTM}
+\section{APPENDIX: Preliminary Building Blocks} \label{app:Appendix_BasicsRNNLSTM}
 
-\subsection{Recurrent Neural Networks (RNN)}
+\subsection{Recurrent Neural Networks (RNN)} \label{sec:RNN}
 
 \subsubsection{Motivation for RNNs}
 
@@ -13,6 +13,7 @@ Traditional neural networks cannot persist information. As a comparison, while h
 \vspace{-5pt}
 \caption{\footnotesize Unrolled view of Recurrent Neural Network with Hidden States $h_i$ and inputs $x_i$. From \emph{Understanding LSTMs}, by Colah., 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. }
 \vspace{-5pt}
+\label{fig:rnnUnrolledView}
 \end{figure}
 
 
@@ -35,7 +36,7 @@ Nguyen (2018b) describes the basic workflow of RNNs as follows:
 
 
     
-\subsection{Long-Short Term Memory Networks (LSTM)}
+\subsection{Long-Short Term Memory Networks (LSTM)} \label{sec:LSTM}
 
 \subsubsection{Motivation for LSTM: Problem with RNNs}
 
@@ -48,6 +49,7 @@ RNNs suffer from the well known \textbf{long-term dependency problem}. In some p
 \vspace{-5pt}
 \caption{\footnotesize Long-Term Dependency Problem in RNNs (widening gap between inputs $x_i$ and hidden states $h_j$. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. }
 \vspace{-5pt}
+\label{fig:longTermMemoryProblem}
 \end{figure}
 
 The \textbf{short-term memory problem} occurs due to the \textbf{vanishing gradient problem}. During backward propagation of errors through the neural network (described in Appendix A), the gradient shrinks as it back propagates through time and becomes too small to update the parameter weights significantly. This is compounded by the fact that since inputs at any timestep $t$ are dependent on previous $t-1$ outputs, longer sequences require more gradient calculations. Adjustments to earlier layers thus become smaller, causing gradients to shrink exponentially as they are backpropagated through to earlier layers of the RNN. As a result, RNNs ``forget" older history, resulting in short-term memory (Nguyen, 2018b). 
@@ -77,6 +79,7 @@ From Nguyen (2018b), the gates (neural network layers) regulating information ar
 \vspace{-20pt}
 \caption{\footnotesize Forget Gate Calculation. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. }
 \vspace{-5pt}
+\label{fig:forgetGate}
 \end{wrapfigure}
 
 \textbf{Forget Gate: } the forget gate decides information to discard or keep. The previous hidden state $h_{t-1}$ and current input $x_t$ are passed through the sigmoid nonlinearity function. The forget gate outputs a number between $0$ and $1$ for each number in the cell state $C_{t-1}$; values closer to $0$ indicate the forget gate should discard the information and values closer to $1$ should be kept. 
@@ -97,6 +100,7 @@ where $f_t$ denotes the forget gate for time $t$, $\sigma(\cdot)$ denotes the si
 \vspace{-20pt}
 \caption{\footnotesize Input Gate Calculation. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. } 
 \vspace{-5pt}
+\label{fig:inputGate}
 \end{wrapfigure}
 \textbf{Input Gate: } the input gate $i_t$ updates the cell state $C_t$. Previous hidden state $h_{t-1}$ and current input $x_t$ are passed though a signmoid function normalize vector cells between $0$ and $1$. The input gate is later used with the cell state to decide how values are updated. 
 $$
@@ -119,6 +123,7 @@ where $i_t$ is the input gate for time $t$, $\sigma(\cdot)$ is the sigmoid, $W_i
 \vspace{-20pt}
 \caption{\footnotesize Cell State Calculation. From \emph{Understanding LSTMs}, by Colah, 2015.\url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. }
 \vspace{-5pt}
+\label{fig:cellState}
 \end{wrapfigure}
 
 \textbf{Cell State: } Current cell state $C_t$ takes $h_{t-1}$ and $x_t$ and normalizes them to be between $-1$ and $1$ via a hyperbolic tangent nonlinearity:
@@ -145,6 +150,7 @@ $$
 \vspace{-20pt}
 \caption{\footnotesize Output Gate Calculation. From \emph{Understanding LSTMs}, by Colah, 2015.\url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. }
 \vspace{-5pt}
+\label{fig:outputGate}
 \end{wrapfigure}
 
 \textbf{Output Gate: }the output gate determines the next hidden state by multiplying the previous output state by the cell state that is filtered by the hyperbolic tangent.
@@ -159,7 +165,7 @@ $$
 
 
 
-\subsection{Gated Recurrent Networks (GRU)}
+\subsection{Gated Recurrent Networks (GRU)} \label{sec:GRU}
 
 The gated recurrent unit (GRU) from Cho et al. (2014) is a type of LSTM that ``combines the forget and input gates into a single \textbf{update gate}" and ``merges the cell state and hidden state" (Colah, 2015), resulting with only the reset gate $r_t$ and update gate $z_t$ (Nguyen, 2018b). 
 
@@ -174,6 +180,7 @@ The \textbf{reset gate} $r_t$ signals the hidden state on how to forget previous
 \vspace{-5pt}
 \caption{\footnotesize The GRU Cell with Gates. From \emph{Understanding LSTMs}, by Colah, 2015. \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Copyright 2015 by Colah.}
 \vspace{-5pt}
+\label{fig:gru}
 \end{figure}
 
 Nguyen (2018b) notes that since GRU's have fewer tensor operations, they are more efficient than LSTMs during training. 
