@@ -79,7 +79,9 @@ $$
 P \Big( w_{t+j} \; | \; w_t \Big) = \frac {\exp{ \Big( (v'_{w_{t+j}})^T  v_{w_t} \Big) }} {\sum_{w=1}^V \exp{ \Big( (v'_w)^T \cdot v_{w_t} \Big) }}
 $$
 where $w_t$ is the inputted target word, $w_{t+j}$ is the predicted context word, and $V$ is the number of vocabulary words. 
+\newline
 
+\nameref{Appendix_SkipGram} applies the Skip-Gram model to neural translation, using the word embedding concept. 
 
 
 \subsubsection{Continuous Bag of Words Model (CBOW)}
@@ -127,9 +129,11 @@ $$
 P \Big( w_t \; | \; w_I \Big) = \frac {\exp{ \Big( (v'_{w_O})^T  v_{w_I} \Big) }} {\sum_{w=1}^V \exp{ \Big( (v'_w)^T \cdot v_{w_I} \Big) }}
 $$
 where $w_I$ is the input context word, $w_O$ is the predicted target word, and $V$ is the number of vocabulary words. 
+\newline 
 
+\nameref{Appendix_CBOW} applies the CBOW model to neural translation, using the word embedding concept. 
 
-\subsection{Phrase-Learning Attempt in Word2Vec Using Skip-Gram}
+\subsection{Phrase-Learning in Word2Vec Using Skip-Gram}
 
 Mikolov et al. (2013a) state that a problem with previous word vectors is their lack of phrase representation - the phrases ``Canada" and ``Air" could not be recognized as part of a larger concept and thus combined into ``Air Canada". Many phrases have meaning that is not just a composition of the meanings of its individual words and should be represented as their own unique tokens in the training data. In contrast, a bigram like ``this is" should remain unchanged (Mikolov et al., 2013a, p. 5). 
 
@@ -141,6 +145,6 @@ where $C(\cdot)$ is the count of a unigram $w_i$ or bigram $w_i w_j$ and $\delta
 
 Regarding model accuracy, Mikolov et al. (2013a) found that the phrase Skip-Gram model with hierarchical softmax and subsampling performed significantly better on a large data set than the original Skip-Gram without the phrase feature. 
 
-It was found that the phrase Skip-Gram exhibits a linear structure \textbf{additive compositionality} of word vectors, which allows words to be combined meaningfully by adding their word vectors. For instance, composing word vectors $vector(\texttt{"French"}) + vector(\texttt{"actress"})$ results in the phrase $vector(\texttt{"Juliette Binoche"})$. 
+It was found that the phrase Skip-Gram exhibits a linear structure \textbf{additive compositionality} of word vectors, which allows words to be combined meaningfully by adding their word vectors. For instance, composing word vectors $vector(\texttt{"French"}) \! + \! vector(\texttt{"actress"})$ results in the phrase $vector(\texttt{"Juliette Binoche"})$. 
 
-This \textbf{additive compositionality} feature of word vectors stems from the loss function's formulation. Since learned context vectors can represent the overall distribution of context words in which the target word appears, and since the vectors are logarithmically related to the probabilities from the output layer, the sum of two word vectors is related to the product of the context distributions (using the logarithm sum rule). This product of distributions functions like an AND function since words are weighted by probability. Consequently, if the key phrase ``Volga River" appears many times in the same sentence along with ``Russian" and ``river", the sum $vector(\texttt{"Russian"}) + vector(\texttt{"river"})$ results in the phrase $vector(\texttt{"Volga River"})$ or at least a vector close to it (Mikolov et al., 2013a). 
+This \textbf{additive compositionality} feature of word vectors stems from the loss function's formulation. Since learned context vectors can represent the overall distribution of context words in which the target word appears, and since the vectors are logarithmically related to the probabilities from the output layer, the sum of two word vectors is related to the product of the context distributions (using the logarithm sum rule). This product of distributions functions like an AND function since words are weighted by probability. Consequently, if the key phrase ``Volga River" appears many times in the same sentence along with ``Russian" and ``river", the sum $vector(\texttt{"Russian"}) \! + \! vector(\texttt{"river"})$ results in the phrase $vector(\texttt{"Volga River"})$ or at least a vector close to it (Mikolov et al., 2013a). 

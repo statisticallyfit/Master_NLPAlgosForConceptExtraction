@@ -75,8 +75,9 @@ The $n$-gram model seeks to remedy the \emph{curse of dimensionality} by combini
 
 However, Bengio et al. (2003) developed a neural probabilistic language model to learn a distributed representation for words to allow the model to generalize to unseen data. The neural model does two tasks simultaneously; (1) it learns a distributed representation for each word, and also (2) it learns the probability distribution of word sequences \emph{as a function of} the distributed representations. The model generalizes to unseen data successfully because unseen word sequences get a high probability if containing words that are similar to words that were already seen.  
 
-Advantageously, this model can capture longer contexts better than the $n$-gram, which is limited to short contexts. As a result of continuous word vector representations, the learned probability function's parameters increase only linearly instead of exponentially, with the vocabulary size, and linearly, with vector dimension, thus resolving the curse of dimensionality (Bengio et al., 2003). 
+Advantageously, this model can capture longer contexts better than the $n$-gram, which is limited to short contexts. As a result of continuous word vector representations, the learned probability function's parameters increase linearly not exponentially with the vocabulary size, and they increase linearly with vector dimension, thus resolving the curse of dimensionality (Bengio et al., 2003).  
 
+For more information, \nameref{Appendix_Backprop} describes key concepts and algorithms for training neural networks to learn parameters. 
 
 
 \subsection{Bidirectional Language Model}

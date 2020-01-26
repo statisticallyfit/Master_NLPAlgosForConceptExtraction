@@ -14,46 +14,6 @@ The \textbf{Transformer model} introduced by Vaswani et al. (2017) is a neural m
 
 
 
-\subsection{Encoder}
-
-The Encoder is a \textbf{bidirectional recurrent network (RNN)} consisting of a forward RNN and backward RNN. The forward RNN reads the input sequence $\overrightarrow{x} = \Big\{ x_1,...,x_{T_x} \Big\}$ from left to right to produce a sequence of forward hidden states $\Big\{ \overrightarrow{h_1},..., \overrightarrow{h_{T_x}} \Big\}$. The backward RNN reads the sequence in reverse order, so taking $x_{T_x}$ to $x_1$ and returns a sequence of backward hidden states $\Big\{ \overleftarrow{h_1},..., \overleftarrow{h_{T_x}} \Big\}$. Then, for each word $x_t$ an annotation is obtained by concatenating the corresponding forward hidden state vector $\overrightarrow{h}_t$ with the backward one $\overleftarrow{h}_t$, such that $h_t = \Big \{ \overrightarrow{h}_t^T \; ; \; \overleftarrow{h}_t^T \Big\}^T , \: t=1,...,T_x$. This allows the annotation vector $h_t$ for word $x_t$ to contain contextual information by using previous and latter words (Bahdanau et al., 2016). These annotations are later used in the decoder to compute the context vector. 
-
-The Encoder is composed of $N$ identical \textbf{Encoder layers}, which together are named the \textbf{Encoder stack}. A single \textbf{Encoder layer}  is composed of two sub-layers: 
-\begin{enumerate}
-    \item \textbf{multi-head self attention mechanism (layer)}
-    
-    \item \textbf{positionwise fully-connected feed-forward network (layer)}
-\end{enumerate}
-
-A \textbf{residual connection layer} surrounds each of these sub-layers, and this is followed by \textbf{layer normalization} (Trevett, 2020).  
-
-
-
-\subsection{Decoder}
-
-
-The Decoder neural network generates hidden states $s_t = \text{Decoder}\Big( s_{t-1}, y_{t-1}, c_t \Big)$ for time steps $t = 1,..., m$ where the context vector $c_t = \sum_{i=1}^n \alpha_{ti} \cdot h_i$ is a sum of the hidden states of the input sentence, weighted by alignment scores, as for the Seq-to-Seq model (Weng, 2018). (Here the arrows denote the direction of the network rather than vector notation.)
-
-Similarly to the Encoder, the Decoder contains a stack of $N$ Decoder layers which consist of several sub-layers:
-\begin{enumerate}
-    \item \textbf{multi-head self attention layer}
-    \item \textbf{encoder-decoder attention layer} or masked multi-head attention. 
-    
-    \item \textbf{positionwise fully-connected feed forward layer}. 
-\end{enumerate}
-
-Like in the Encoder, in between each of these layers is a residual connection followed by layer normalization. 
-
-\begin{figure}[h]
-\vspace{-10pt}
-\centering
-\includegraphics[width=0.8\textwidth]{imgs/encoderDecoderLayersDetailed.png}
-\vspace{-10pt}
-\caption{\footnotesize The layers inside Encoder and Decoder. From \emph{The Illustrated Transformer}, by Alammar, 2018. \url{https://jalammar.github.io/illustrated-transformer/}. Copyright 2018 by Alammar.}
-\vspace{-5pt}
-\end{figure}
-
-
 
 \subsection{Self-Attention}
 
@@ -68,7 +28,7 @@ Consider the following sentence:
 \vspace{10pt}
 \end{shadequote}
 
-What does ``it” in this sentence refer to? Is ``it" referring to the street or to the animal? This question may be simple to a human but not to a machine. 
+What does ``it” in this sentence refer to? Is ``it" referring to the road or to the animal? This question may be simple to a human but not to a machine. 
 
 This is the motivation for \textbf{self-attention}: when the Transformer processes the word ``it", self-attention allows it to associate ``it" with ``animal". As the Transformer processes each word, self-attention allows it to look at other positions in the input sentence for clues to create a better encoding for this word. In each layer, a part of the attention mechanism that focuses on ``the animal" was \emph{baked in} to a part of the representation of the word ``it" when encoding this in the model (Trevett, 2020). 
 
@@ -87,7 +47,7 @@ The \textbf{query, key, and value} vectors are abstractions useful for calculati
     \item The Value matrix $V$ contains vector information for the rest of the words in the sentence. Multiplying the query vector with the key vector of a particular word, stored in $Q$ and $K$ computes a result that indicates how much \emph{value} vector $V$ to consider.
 \end{itemize}
 
-For the previous sentence, ``The animal didn't cross the street because it was too tired,"  $Q$ query refers to the word ``it"; $V$ contains vectors for words other than ``it"; $K$ contains vectors for each word, including ``it".
+For the previous sentence, ``The animal didn't cross the road because it was too tired,"  $Q$ query refers to the word ``it"; $V$ contains vectors for words other than ``it"; $K$ contains vectors for each word, including ``it".
 
 The final embedding of the word or \textbf{output} is a weighted sum of \textbf{value} vectors and softmax probabilities of the dot product between query and key vectors: 
 $$
@@ -100,7 +60,7 @@ Each word has an associated \textbf{query, key, value} vector which are created 
 % \overrightarrow{x_3} = \text{"didn't"}, \!
 % \overrightarrow{x_4} = \text{"cross"}, \!
 % \overrightarrow{x_5} = \text{"the"}, \!
-% \overrightarrow{x_6} = \text{"street"}, \!
+% \overrightarrow{x_6} = \text{"road"}, \!
 % \overrightarrow{x_7} = \text{because"}, \!
 % \overrightarrow{x_8} = \text{"it"}, \!
 % \overrightarrow{x_9} = \text{"was"}, \!
@@ -116,7 +76,7 @@ $$
 \overrightarrow{x_3} = \text{"didn't"} \\
 \overrightarrow{x_4} = \text{"cross"} \\
 \overrightarrow{x_5} = \text{"the"} \\
-\overrightarrow{x_6} = \text{"street"} \\
+\overrightarrow{x_6} = \text{"road"} \\
 \overrightarrow{x_7} = \text{because"} \\
 \overrightarrow{x_8} = \text{"it"} \\
 \overrightarrow{x_9} = \text{"was"} \\
@@ -130,117 +90,247 @@ and the word embedding vectors would be denoted $\Big\{ \overrightarrow{w_1}, \o
 
 \subsubsection{Self-Attention: Vector Calculation}
 
-\underline{Step 1: Create Query, Key, Value Vectors}
+Using notation from Vaswani et al. (2017) and Alammar (2018b), 
 
-The first step is to create three vectors from each of the Encoder's input vectors (in this case, the inputs are the embeddings $\overrightarrow{w_i}$ of each word $\overrightarrow{x_i}$). So for each word, we create a Query vector, a Key vector and a Value vector by multiplying the embedding by three matrices obtained during training
-TODO: training matrices? to create Q, K, V
-- NOTE: the embeddings $\overrightarrow{w_i}$ and `Encoder` input and output vectors have dimension $512$.
-- NOTE: the query, key, value vectors have dimension $64$. These do not HAVE to be smaller, but this is just an architecture choice to make the computation of multiheaded attention (mostly) constant.
-%% codecell
-%% codecell
-ImageResizer.resize(filename = pth + "qkv.png")
-%% markdown [markdown]
+\begin{enumerate}
+    \item \textbf{Create Query, Key, Value Vectors}: The first step is to create query, key, value vectors from each of the Encoder's input word embeddings $\overrightarrow{w_i}$ corresponding each word $\overrightarrow{x_i}$ by multiplying the embedding by appropriate rows in the three matrices obtained during training. \newline
 
-Step 2: Calculate a Score
-Say we are calculating the self-attention for word $i$ in this example, $\overrightarrow{x_i}$, whose numericalized word embedding is $\overrightarrow{w_i}$. We need to score each word of the input sentence against this word. The score determines how much **focus to place on other parts of the input sentence** as we encode a word at a certain position.
+    \item \textbf{Calculate a Score}: The scores determine how much \textbf{focus to place on other parts of the input sentence} while encoding a word at a certain position.  The score is calculated by taking the dot product of the \textbf{query} vector with the \textbf{key} vector of the respective word being scored. Thus for word $\overrightarrow{w_i}$, the scores are: 
+    $$
+    \text{scores}_{\Large w_i} = \bigg\{
+    \overrightarrow{q_i} \cdot \overrightarrow{k_1},
+    \overrightarrow{q_i} \cdot \overrightarrow{k_2},
+    ...,
+    \overrightarrow{q_i} \cdot \overrightarrow{k_n} \bigg\}
+    $$
 
-The score is calculated by taking the dot product of the *query* vector with the *key* vector of the respective word we are scoring. This means if we are processing the self-attention for the word in position $i$ (word $i$), the first value in the $i$th score vector would be the dot product of $\overrightarrow{q_i}$ and $\overrightarrow{k_1}$.
+    \item \textbf{Scale The Score}: The scores are scaled using $d_k$, which is the dimension of the key vector. From Vaswani et al. (2017), ``for large values of $d_k$, the dot products grow large in  magnitude, pushing the softmax function into regions where it has extremely small gradients. To counteract this effect, we scale the dot products by $\frac {1} {\sqrt{d_k}}$." Thus the scores for $\overrightarrow{w_i}$ are:
+    $$
+    \text{scores}_{\overrightarrow{w_i}} = \Bigg\{
+    \frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}},
+    \frac {\overrightarrow{q_i} \cdot \overrightarrow{k_2}} {\sqrt{d_k}},
+    ...,
+    \frac{\overrightarrow{q_i} \cdot \overrightarrow{k_n}} {\sqrt{d_k}} \Bigg\}
+    $$
+    
+    \item \textbf{Apply Softmax}: The softmax function normalizes the scores into probabilities. 
+    $$
+    \text{scores}_{\overrightarrow{w_i}} = softmax \Bigg( \Bigg\{
+    \frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}},
+    \frac {\overrightarrow{q_i} \cdot \overrightarrow{k_2}} {\sqrt{d_k}},
+    ...,
+    \frac{\overrightarrow{q_i} \cdot \overrightarrow{k_n}} {\sqrt{d_k}} \Bigg\} \Bigg)
+    $$
 
-* the first score value in the $i$th score vector would be the dot product of $\overrightarrow{q_i}$ and $\overrightarrow{k_1}$.
-* the second score value in the $i$th score vector would be the dot product of $\overrightarrow{q_i}$ and $\overrightarrow{k_2}$.
-* the third score value in the $i$th score vector is is the dot product of $\overrightarrow{q_i}$ and $\overrightarrow{k_3}. $
+    \item \textbf{Compute the Weights}: The weighted values for word embedding $\overrightarrow{w_i}$ are calculated by multiplying each value vector in matrix $V$ by the softmax scores. Intuitively, this cements the values of words to focus on while drowning out irrelevant words. 
+    $$
+    \text{weights}_{\overrightarrow{w_i}} = \text{scores}_{\overrightarrow{w_i}} * (\overrightarrow{v_1}, ..., \overrightarrow{v_n})
+    $$
 
-$$ \vdots \\ $$
-- the $n$-th score for the $n$-th word would be the dot product of $\overrightarrow{q_i}$ and $\overrightarrow{k_n}$.
-
-$$
-scores_{w_i} = \bigg\{
-\overrightarrow{q_i} \cdot \overrightarrow{k_1},
-\overrightarrow{q_i} \cdot \overrightarrow{k_2},
-...,
-\overrightarrow{q_i} \cdot \overrightarrow{k_n} \bigg\}
-$$
-
-The image below shows the first and second values in the first scoring vector corresponding to the first word "Thinking" in a sentence that starts with the words "Thinking Machines ...":
-%% codecell
-%% codecell
-%% codecell
-
-%% markdown [markdown]
-
-Step 3: Scale The Score
-
-The dimensions of the  key vectors is $d_k = 64$.
-
-From the paper:
-> *We suspect that for large values of $d_k$, the dot products grow large in  magnitude, pushing the `softmax function` into regions where it has extremely small gradients. To counteract this effect, we scale the dot products by $\frac {1} {\sqrt{d_k}}$*
-
-So now the scores vector for the first `word embedding` `tensor` $\overrightarrow{w_i}$ is:
-
-$$
-scores_{w_i} = \Bigg\{
-\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}},
-\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_2}} {\sqrt{d_k}},
-...,
-\frac{\overrightarrow{q_i} \cdot \overrightarrow{k_n}} {\sqrt{d_k}} \Bigg\}
-$$
+    \item \textbf{Compute Output Vector}: The weight vector's cells are summed to produce the \textbf{output vector} of the self-attention layer for word embedding $\overrightarrow{w_i}$: 
+    $$
+    \overrightarrow{output_{w_i}} = softmax \Bigg(
+    \frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_1} +
+    softmax \Bigg(\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_2} + ... +
+    softmax \Bigg(\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_n}
+    $$
+\end{enumerate} 
 
 
-Step 4: Apply Softmax
+\subsection{Self-Attention: Matrix Calculation}
 
-The softmax function normalizes the scores so they become positive and add up to $1$. This serves the purpose that now the scores are a probability distribution.
-$$
-scores_{w_i} = softmax \Bigg( \Bigg\{
-\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}},
-\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_2}} {\sqrt{d_k}},
-...,
-\frac{\overrightarrow{q_i} \cdot \overrightarrow{k_n}} {\sqrt{d_k}} \Bigg\} \Bigg)
-$$
+Using notation from Vaswani et al. (2017) and Alammar (2018b), 
 
-The image below shows the scaling and softmax operations after the query, key, value operations:
+\begin{enumerate}
+    \item \textbf{Calculate Query, Key, Value Matrices}: The word embeddings are packed into the rows of input matrix $X$ and this is multiplied by each of the trained parameter matrices $W^Q$, $W^K$, $W^V$ to produce the $Q$, $K$, $V$ matrices:
+    $$
+    \begin{array}{ll}
+    Q = X \cdot W^Q \\
+    K = X \cdot W^K \\
+    V = X \cdot W^V 
+    \end{array}
+    $$
+    
+    \item \textbf{Calculate Self Attention}: Steps 2 through 6 of the vector calculation for self attention can be condensed into a single matrix step where $Q = \Big\{\overrightarrow{q_1}, \overrightarrow{q_2}, ..., \overrightarrow{q_n} \Big\}$, $K = \Big\{\overrightarrow{k_1}, \overrightarrow{k_2}, ..., \overrightarrow{k_n} \Big\}$, $V = \Big\{\overrightarrow{v_1}, \overrightarrow{v_2}, ..., \overrightarrow{v_n} \Big\}$: 
+    $$
+    Attention(Q, K, V) = softmax \Bigg(\frac {QK^T} {\sqrt{d_k}} \Bigg) \cdot V
+    $$
+\end{enumerate}
 
-%% codecell
-Image(filename = pth + "scaling.png")
-%% markdown [markdown]
-
-Step 5: Compute the Weights
-
-Multiply each *value vector* contained in the value matrix $V$ by the softmax scores. The intuition is to keep intact the values of the words we must focus on and drown out irrelevant words. This is why we weight the value vector by the softmax scores.
-$$
-weightedValues_{w_i} = scores_{w_i} * (\overrightarrow{v_1}, ..., \overrightarrow{v_n})
-$$
-
-
-Step 6: Output Vector
-
-Sum up the weighted value vectors to produce the **output vector** of the self-attention layer of the current first word $\overrightarrow{w_i}$.
-$$
-\overrightarrow{output_{w_i}} = softmax \Bigg(
-\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_1} +
-softmax \Bigg(\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_2} + ... +
-softmax \Bigg(\frac {\overrightarrow{q_i} \cdot \overrightarrow{k_1}} {\sqrt{d_k}} \Bigg) \cdot \overrightarrow{v_n}
-$$
-
-The image below shows the last step 5 and step 6:
-%% codecell
-%% codecell
-%% codecell
 
 \subsection{Multi-Head Attention}
 
 \subsubsection{Motivation for Multi-Head Attention}
 
+
+A \textbf{multi-head attention mechanism} comprises of several self-attention heads. 
+
+Multi-head attention enables the Transformer to ``jointly attend to information from different representation subspaces at different positions," while a single attention head cannot do this because of averaging (Vaswani et al., 2017). 
+
+While a single attention function has $d_{model}$-dimensional keys, values and queries, a multi-head attention function ``linearly projects the queries, keys and values $H$ (number of attention heads) times with different, learned linear projections to $d_k$, $d_k$, and $d_v$ dimensions, respectively." Instead of calculating attention once, multi-head attention does self attention many times in parallel on the projected dimensions, concatenates the independent attention outputs, and once again projects the result into the expected dimension to give a final value (Vaswani et al., 2017; Weng, 2018). 
+
+For the example sentence, adding more attention heads enables the Transformer to focus on different words while encoding the meaning of word ``it." As ``it" is encoded, one attention head may focus most on ``the animal" while another focuses on ``tired", so the model's representation of ``it" bakes in some representation of all the words in the sentence (Trevett, 2020). 
+
 \subsubsection{Multi-Head Attention: Matrix Calculation}
 
-\subsection{Encoder-Decoder Attention}
+Using notation from Vaswani et al. (2017) and Alammar (2018b): 
+
+\begin{enumerate}
+    \item \textbf{Create $Q$, $K$, $V$ matrices}: With multi-headed attention there are now separate $Q$, $K$, $V$ weight matrices for each attention head $h$, in $1 \leq h \leq H$. The rows of input matrix $X$ correspond to a word in the input sentence, as before. For each attention head, $X$ is multiplied by trained parameter matrices to produce the separate query, key, value matrices: 
+    $$
+    Q_h = X \cdot W_h^Q \\
+    K_h = X \cdot W_h^K \\
+    V_h = X \cdot W_h^V 
+    $$
+    where $H =$ number of attention heads, and the dimensions of the parameter matrices are $\large W_h^Q \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^K \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^V \in \mathbb{R}^{\Large d_{model} \times d_v}$. 
+    
+    \item \textbf{Apply Softmax To Get Output Matrix}: Steps two through six in the vector calculation of self-attention can be condensed in a single matrix step to find the final output matrix $Z_h$ for the $h$-th attention head for any self-attention layer:
+    $$
+    Z_h := softmax \Bigg(\frac {Q_h K_h^T} {\sqrt{d_k}} \Bigg) \cdot V_h
+    $$
+    
+    \item \textbf{Concatenate Output Matrices}: Now there are $H$ different output matrices $Z$ for each attention head. But the feed-forward layer is only expecting a single matrix instead of $H$. Thus, this step concatenates the $H$ matrices and multiplies the result by an additional weights matrix $W^O$ to return to expected dimensions. 
+    $$
+    MultiHeadAttention(Q, K, V) = Concat(head_1, ..., head_H) \cdot W^O
+    $$
+    \newline where $head_i = Attention(Q \cdot W_h^Q, K \cdot W_h^K, V \cdot W_h^V)$, where the attention function is simply $Attention(Q, K, V) = softmax \Bigg( \frac {\Large QK^T} {\Large \sqrt{d_k}} \Bigg) \cdot V$. The parameter matrices have the following dimensions:  $W^O \in \mathbb{R}^{\Large H \cdot d_v \times d_{model}}$, $\large W_h^Q \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^K \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^V \in \mathbb{R}^{\Large d_{model} \times d_v}$
+    
+    
+\end{enumerate}
+
+
 
 \subsection{Positional Encodings}
 
+\subsubsection{Motivation for Positional Encodings}
+
+Since the Transformer contains no recurrence mechanism it does not yet account for \emph{order in the sequence sentence}. Vaswani et al. (2017) found that injecting information about relative or absolute position of tokens in the sequence in the form of \textbf{positional encodings} helps resolve this issue. 
+Otherwise, the sentences ``I like dogs more than cats" and ``I like cats more than dogs" would encode the same meaning (Raviraja, 2019). 
+
+\subsubsection{Describing Positional Encodings}
+
+The positional encoding follow a specific, learned pattern to identify word position or the distance between words in the sequence. 
+
+The Transformer adds the \textbf{positional encoding} vector to each input embedding in both Encoder and Decoder stacks. Intuitively, this provides meaningful distances between embedding vectors once projected during self attention calculation (Alammar, 2018b). 
+
+From Vaswani et al. (2017), positional encodings use sinusoidal waves to allow the Transformer to more easily attend to relative positions since for any fixed offset $k$, the positional encoding $PosEnc_{pos + k}$ can be represented as a linear function of $PosEnc_{pos}$.
+$$
+\begin{array}{ll}
+PosEnc_{\Large (pos, 2i)} = \text{sin} \Bigg(\frac {pos} {10000^{\Large \frac {2i} {d_{model}} } }  \Bigg) \\
+PosEnc_{\Large (pos, 2i + 1)} = \text{cos} \Bigg(\frac {pos} {10000^{\Large \frac {2i} {d_{model}} } }  \Bigg)
+\end{array}
+$$
+where $pos = $ the position, $i = $ the dimension.
+
+
 \subsection{Position-wise Feed Forward Layer}
+
+A \textbf{positionwise feed-forward layer} is a kind of feed-forward neural network (FFN) (where inputs are moved only forward). It is ``position-wise" because this FFN is applied to each position separately and identically. 
+
+The FFN contains two linear transformations with a $ReLU$ or ``max" activation function in between them:
+$$
+FFN(x) = max(0, x W_1 + b_1) W_2 + b_2
+$$
 
 \subsection{Residual Connection}
 
-\subsection{Layer Normalization}
+A \textbf{residual connection} serves as a sub-layer in both Encoder and Decoder stacks. Its main function is to add inputs to outputs of a sub-layer, allowing gradients during optimization to flow through a network directly rather than being transformed by nonlinear activations (Raviraja, 2019). It is represented as: 
+$$
+LayerNorm(x + Sublayer(x))
+$$
+where $Sublayer(x)$ is the function implemented by the sub-layer in either Encoder or Decoder stack.
+
+Each sub-layer in the stack, such as self-attention and FFNs, are surrounded by residual connection layers followed by layer normalization. 
+
+
+
+
+\subsection{Masked Multi-Head Attention}
+
+The \textbf{masked self attention} is an attention mechanism that forms a sub-layer in the Decoder stack. It uses \textbf{masking} to prevent positions from attending to subsequent positions. Rather, while decoding a word embedding $\overrightarrow{w_i}$, the Decoder is not aware of words  $\overrightarrow{w_{>i}}$ past position $i$. It can only use words $\overrightarrow{w_{\leq i}}$.
+
+Masking is done to render invisible the words $\overrightarrow{w_{>i}}$ so that the Decoder only calculates its output vector from words $\overrightarrow{w_{\leq i}}$ (Ta-Chun, 2018). 
+
+\subsection{Encoder-Decoder Attention}
+
+This attention layer differs from attention layers found in either Encoder or Decoder. It is like multi-head self attention but the difference is that the \textbf{encoder-decoder attention layer} creates the query matrix $Q$ from the layer below it (a Decoder self attention layer) and uses the key $K$ and value $V$ matrices from the Encoder stack's output (Alammar, 2018b). 
+
+
+
+\subsection{Encoder}
+
+The Encoder is a \textbf{bidirectional recurrent network (RNN)} consisting of a forward RNN and backward RNN. The forward RNN reads the input sequence $\overrightarrow{x} = \Big\{ x_1,...,x_{T_x} \Big\}$ from left to right to produce a sequence of forward hidden states $\Big\{ \overrightarrow{h_1},..., \overrightarrow{h_{T_x}} \Big\}$. The backward RNN reads the sequence in reverse order, so taking $x_{T_x}$ to $x_1$ and returns a sequence of backward hidden states $\Big\{ \overleftarrow{h_1},..., \overleftarrow{h_{T_x}} \Big\}$. Then, for each word $x_t$ an annotation is obtained by concatenating the corresponding forward hidden state vector $\overrightarrow{h}_t$ with the backward one $\overleftarrow{h}_t$, such that $h_t = \Big \{ \overrightarrow{h}_t^T \; ; \; \overleftarrow{h}_t^T \Big\}^T , \: t=1,...,T_x$. This allows the annotation vector $h_t$ for word $x_t$ to contain contextual information by using previous and latter words (Bahdanau et al., 2016). These annotations are later used in the decoder to compute the context vector. 
+
+The Encoder is composed of $N$ identical \textbf{Encoder layers}, which together are named the \textbf{Encoder stack}. A single \textbf{Encoder layer}  is composed of two sub-layers: 
+\begin{enumerate}
+    \item \textbf{multi-head self attention mechanism (layer)}
+    
+    \item \textbf{positionwise fully-connected feed-forward network (layer)}
+\end{enumerate}
+
+A \textbf{residual connection layer} surrounds each of these sub-layers, and this is followed by \textbf{layer normalization} (Trevett, 2020).  
+
+
+
+
+\begin{figure}[h]
+\vspace{-10pt}
+\centering
+\includegraphics[width=0.8\textwidth]{imgs/encoderDecoderLayersDetailed.png}
+\vspace{-10pt}
+\caption{\footnotesize The layers inside Encoder and Decoder. From \emph{The Illustrated Transformer}, by Alammar, 2018. \url{https://jalammar.github.io/illustrated-transformer/}. Copyright 2018 by Alammar.}
+\vspace{-5pt}
+\end{figure}
+
+
+
+
+\subsection{Decoder}
+
+
+The Decoder neural network generates hidden states $s_t = \text{Decoder}\Big( s_{t-1}, y_{t-1}, c_t \Big)$ for time steps $t = 1,..., m$ where the context vector $c_t = \sum_{i=1}^n \alpha_{ti} \cdot h_i$ is a sum of the hidden states of the input sentence, weighted by alignment scores, as for the Seq-to-Seq model (Weng, 2018). (Here the arrows denote the direction of the network rather than vector notation.)
+
+Similarly to the Encoder, the Decoder contains a stack of $N$ Decoder layers, each of which consist of several sub-layers:
+\begin{enumerate}
+    \item \textbf{masked multi-head self attention layer}
+    \item \textbf{encoder-decoder attention layer} 
+    \item \textbf{positionwise fully-connected feed forward layer}. 
+\end{enumerate}
+
+Like in the Encoder, in between each of these layers is a residual connection followed by layer normalization. 
+
+
+
+
+\subsection{Final Linear and Softmax Layer}
+
+
+The Decoder stack outputs a vector of floats which is converted to a word using a Linear layer, followed by a Softmax layer in the Transformer neural network (Alammar, 2018b). 
+\begin{itemize}
+    \item \textbf{Linear Layer} is a simple, fully-connected neural network that projects the Decoder's output vector in a larger-dimension ``logits vector" in which each cell holds a score corresponding to each unique vocabulary word. 
+    
+    \item \textbf{Softmax Layer} then converts the Linear Layer's scores into probabilities via the softmax function. 
+\end{itemize}
+
+To find the predicted word, the cell with highest probability is chosen, and the word corresponding to that cell is the predicted word that is output for a particular time step.
+
+
 
 
 \subsection{Transformer Workflow}
+
+Alammar (2018b) describes the procedure governing the Transformer's moving parts as follows: 
+
+\begin{enumerate}
+    \item The Encoder processes the input sentence in the given language, adding the positional encoding to input embeddings.
+    
+    \item The output of the top Encoder layer is then transformed into a set of attention vectors $K$ and $V$.
+    
+    \item The Decoder uses $K$ and $V$ in its encoder-decoder attention layer to help the Decoder focus on appropriate places in the input sequence. Subsequent outputs are fed to the bottom decoder, allowing Decoders to accumulate results like the Encoders. Also, the Decoder includes positional encodings to its inputs. 
+    
+    \item The previous steps are repeated until a special symbol is reached, indicated the Decoder has finished generating output.
+    
+    \item The Decoder's numeric output vector is passed through the final linear and softmax layer to find a predicted, translated word in the target language. 
+    
+\end{enumerate}
+

@@ -1,6 +1,6 @@
 \section{Sequence To Sequence Model}
 
-A \textbf{sequence-to-sequence (Seq-to-Seq) model} is often used in natural language processing for machine translation. It takes a sequence of items such as words and outputs another sequence of items. It uses an \textbf{Encoder} that processes the inputs, squashes this information into a \emph{fixed-length} \textbf{context vector}, also known as a \textbf{sentence embedding} or \textbf{thought vector}. The Seq-to-Seq model sends this representation of the source sentence to a \textbf{Decoder} that outputs a target sentence one word at a time, using the context vector (Alammar, 2018). Commonly, the Encoder and Decoder are RNNs such as LSTMs or GRUs (described in detail in Appendices).
+A \textbf{sequence-to-sequence (Seq-to-Seq) model} is often used in natural language processing for machine translation. It takes a sequence of items such as words and outputs another sequence of items. It uses an \textbf{Encoder} that processes the inputs, squashes this information into a \emph{fixed-length} \textbf{context vector}, also known as a \textbf{sentence embedding} or \textbf{thought vector}. The Seq-to-Seq model sends this representation of the source sentence to a \textbf{Decoder} that outputs a target sentence one word at a time, using the context vector (Alammar, 2018a). Commonly, the Encoder and Decoder are RNNs such as LSTMs or GRUs (described in detail in \nameref{Appendix_BasicsRNNLSTM}).
 
 
 \subsection{Describing Seq-to-Seq Model}
@@ -30,7 +30,7 @@ The context vector $z$ does not have a time step $t$ subscript, meaning this sam
 
 \subsection{Problem with Seq-to-Seq Models}
 
-However, compressing the inputs into such a \textbf{fixed-length} vector leads to a \textbf{long-term dependency problem} since only the last hidden state of the Encoder is used. Thus, the Seq-to-Seq model becomes incapable of memory, similar to RNNs (see appendix B). 
+However, compressing the inputs into such a \textbf{fixed-length} vector leads to a \textbf{long-term dependency problem} since only the last hidden state of the Encoder is used. Thus, the Seq-to-Seq model becomes incapable of memory, similar to RNNs (see \nameref{Appendix_BasicsRNNLSTM}). 
 
 \subsection{The Attention Mechanism}
 
