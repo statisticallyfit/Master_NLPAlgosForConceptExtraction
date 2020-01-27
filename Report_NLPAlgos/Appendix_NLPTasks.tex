@@ -9,7 +9,11 @@ Most of these definitions are from Collobert et al. (2011).
 
 \subsection{machine translation (MT)} \label{nlptask:machinetranslationMT}
 
-\textbf{Machine translation (MT)} task translates an input text in a given language to a target language. There are many population neural translation models like the \nameref{sec:Seq2Seq} and \nameref{sec:Transformer} and \nameref{BERT} that use the \hyperref[sec:AttentionMechanism][attention mechanism] to account for contextual meaning across a sentence and not just translate word by word. 
+\textbf{Machine translation (MT)} task translates an input text in a given language to a target language. There are many population neural translation models like the \nameref{sec:Seq2Seq} and \nameref{sec:BERT} that use the \hyperref[sec:AttentionMechanism]{attention mechanism} to account for contextual meaning across a sentence and not just translate word by word. 
+
+\subsection{neural machine translation (NMT)} \label{nlptask:neuralmachinetranslationNMT}
+
+\textbf{Neural machine translation (NMT)} is \nameref{nlptask:machinetranslationMT} applied in \nameref{sec:NeuralLM}s. 
 
 
 \subsection{question answering (QA)} \label{nlptask:questionansweringQA}
@@ -19,7 +23,7 @@ Most of these definitions are from Collobert et al. (2011).
 
 \subsection{semantic role labeling (SRL)} \label{nlptask:semanticrolelabelingSRL}
 
-Also called ``shallow" \nameref{nlptask:semanticparsingSP} , \textbf{semantic role labeling (SRL)} is often described as answering the question ``Who did what to whom." It tries to give a semantic role or tag to a syntactic constituent of a sentence (Collobert et al., 2011). It can assign labels to words or phrases in a sentence to indicate their semantic role in that particular sentence. Examples of semantic roles are \emph{agent, goal} or \emph{result}. 
+Also called ``shallow" \nameref{nlptask:semanticparsingSP} , \textbf{semantic role labeling (SRL)} is often described as answering the question ``Who did what to whom?" (Peters et al. 2018). It tries to give a semantic role or tag to a syntactic constituent of a sentence (Collobert et al., 2011).  Examples of semantic roles are \emph{agent, goal} or \emph{result}. 
 
 Specifically, it detects semantics associated to a syntactic sentence feature like predicate or verb and then assigns them semantic roles. 
 \begin{itemize}
@@ -34,7 +38,27 @@ SRL can give multiple labels depending on the usage of the syntactic constituent
 
 \subsection{named entity recognition (NER)} \label{nlptask:namedentityrecognitionNER}
 
-\textbf{Named entity recognition (NER)} is a kind of information extraction task that labels known entities in text into categories like ``person" or ``location". 
+\textbf{Named entity recognition (NER)} is a kind of information extraction task that labels known entities in text into categories like ``Person", ``Location," and ``Organization." \newline 
+
+An \textbf{entity} is a proper noun such as a person, place, or product. A proper noun is more specific than general nouns, which represent more ambigious concepts; for example, ``Emma Watson", ``Eiffel Tower" and ``Second Cup" are entites but the corresponding nouns ``actress", ``architecture" and ``store" are themes.
+
+
+
+\subsection{named entity disambiguation (NED)} \label{nlptask:namedentitydisambiguationNED}
+
+\textbf{Named entity disambiguation (NED)} or \textbf{entity linking (EL)} links or maps mentions of an entity (such as persons, locations, companies) within a text to corresponding unique entities in a knowledge base (Shahbazi et al., 2019). 
+
+\begin{itemize}
+    \item \textbf{Example input text: } ``Jordan as a  member of the Tar Heels' national championship team."
+    
+    \item \textbf{Example output: } the language model should predict the named entity (person) ``Michael Jordan", given this exists in the knowledge base, rather than the ambigious mention ``Jordan". 
+\end{itemize}
+
+%\subsection{entity extraction (EE)} \label{nlptask:entityextraction}
+
+%\subsection{entity typing (ET)} \label{nlptask:entitytypingET}
+
+
 
 \subsection{part of speech tagging (POS)} \label{nlptask:postagging}
 
@@ -65,9 +89,6 @@ From (Mohler, 2019):
 \end{itemize}
 
 
-\subsection{sentiment analysis (SA)} \label{nlptask:sentimentanalysisSA}
-
-
 
 
 \subsection{word sense disambiguation (WSD)} \label{nlptask:wordsensedisambiguatioNWSD}
@@ -80,44 +101,77 @@ From (Mohler, 2019):
 
 \textbf{Lexical substitution} substitutes a word given its contextual meaning. For example, the word ``bright" in the phrase ``bright child" can be replaced with ``smart" or ``gifted" rather than ``shining" (Brazinkas et al., 2018). 
 
-\subsection{entailment recognition} \label{nlptask:entailmentrecognition}
+\subsection{entailment recognition (ER)} \label{nlptask:entailmentrecognition}
 
-The \textbf{entailment recognition} task is a kind of lexical entailment task or hyponymy detection. Like in \nameref{nlptask:wordsimilarity}, context is not given, only a pair of words, where the task is to predict if the first word $w_1$ entails the second one $w_2$. For (``kiwi", ``fruit"), the task would be to confirm that ``kiwi" entails ``fruit" since it is a hyponym. Similarly, ``spoon" entails ``cutlery". 
+The \textbf{entailment recognition} task is a kind of lexical entailment task or hyponymy detection. Given a pair of words, the task is to predict if the first word $w_1$ entails the second one $w_2$. For (``kiwi", ``fruit"), the task would be to confirm that ``kiwi" entails ``fruit" since it is its hyponym. 
 
 
 \subsection{textual entailment (TE)} \label{nlptask:textualentailmentTE}
+
+\textbf{Textual entailment (TE)} is the task of determining if a ``hypothesis" is true given a ``premise" (Peters et al., 2018). 
 
 \subsection{entailment directionality prediction} \label{nlptask:entailmentdirectionalityprediction}
 
 Given a pair of words, the \textbf{entailment directionality prediction} task must predict if the previous word entails the next one, or vice versa. It is known that entailment holds for the given word pair and only its directionality is being predicted (Brazinkas et al., 2018). 
 
 
+
+\subsection{sentiment analysis (SA)} \label{nlptask:sentimentanalysisSA}
+
+\textbf{Sentiment analysis (SA)} evaluates the sentiment expressed towards an entity (noun or pronoun) based on its proximity to positive or negative words (adjectives and adverbs). For example, a model may classify a movie review as positive, negative or neutral. Generally, SA systems find several attributes of the expression alongside its \emph{polarity}, including the \emph{subject}, the thing being talked about, and \emph{opinion holder}, the entity holding the opinion. 
+
+This task may assign weighted sentiment values to the entities and themes within text. For instance, a hotel getting a review ``astonishing scenery" would get a higher sentiment score than ``banal lake view" because of the stronger adjective ``astonishing." 
+
+
 \subsection{word similarity} \label{nlptask:wordsimilarity}
+
+The \textbf{word similarity} task determines a similarity score for two input texts. Numerical measures such as cosine similarity compute angular distance between words, based on textual evidence. 
+
 
 \subsection{word analogy} \label{nlptask:wordanalogy}
 
+The \textbf{word analogy} task completes an analogy. For instance, given the analogy ``meteor" is to ``sky" as ``dolphin" is to <blank>, the task would be to predict a word representing a body of water. 
+
+
 \subsection{coreference resolution (CR)} \label{nlptask:coreferenceresolutionCR}
+
+\textbf{Coreference resolution (CR)} is the task of collecting all expressions in a text that refer to the same entity in a text.  that refer to the same underlying real world entities. 
+
+\begin{itemize}
+    \item \textbf{Example input text: } ``The monkey clambered up the baobab tree and he grabbed a banana and ate it there. The hairy ape screeched while watching the setting sun over the river."
+    
+    \item \textbf{Example output: } tag the coreferent phrases ``he" and ``the hairy ape" with  ``the monkey"; and also tag ``it" with the same label as ``banana." 
+    
+\end{itemize}
+
+This task is used as a step towards more general tasks, and is not an end-user task. 
 
 \subsection{sequence labeling (SL)} \label{nlptask:sequencelabelingSL}
 
+\textbf{Sequence labeling (SL)} is a general NLP task that assigns a label to every token in an input sequence, where tokens can be words or phrases. Two forms of sequence labeling include \nameref{nlptask:postagging} and \nameref{nlptask:spanlabeling}
+
+\subsection{span labeling} \label{nlptask:spanlabeling}
+
+In the \textbf{span labeling} task, spans or groups of words are labeled. This can be used in search tasks to provide entities to spans of words for specifying a search query. 
+
 \subsection{semantic textual similarity (STS)} \label{nlptask:semantictextualsimilaritySTS}
 
+\textbf{Semantic textual similarity} determines similarity for two input texts by assigning a score. This measures semantic similarity, so text meaning rather than syntactic similarity. STS differs from both \nameref{nlptask:textualentailmentTE} and paraphrase detection because it detects meaning overlap rather than using a discrete classification of particular relationships. According to Maheshwari et al. (2018), although semantic similarity is characterized by a ``graded semantic relationship", it may be not specify the nature of the relationship since contradictory words still may score highly. For instance, ``night” and ``day” are highly related but contradictory in nature. 
 
 
+
+\subsection{tokenization} \label{nlptask:tokenization}
+
+\textbf{Tokenization} or \textbf{segmentation} is the task-specific process of segmenting text into machine-understandable language. The term \emph{tokens} describes words but also punctuation, hyperlinks, and possessive markers, such as apostrophes (Mohler, 2018). For example, lemma-based tokenization would specify that the tokens ``cat" and plural ``cats" would mean one word with the same stem or core meaning-bearing unit. Other forms of tokenization exist to differentiate word form, so those would be distinct tokens. Sentences and even characters can be tokenized out of a paragraph (Chromiak, 2017). Types of tokenization are \textbf{subword tokenization} and \textbf{sentence-piece tokenization}, a key feature in \nameref{sec:TransformerXL}. 
 
 %%%%%
-text summarization (TS)
-semantic dependency parsing (SDP)
+%text summarization (TS)
+%semantic dependency parsing (SDP)
+%sentence chaining
 
-tokenization/segmentation (ml)
-sentence chaining
+%entity typing (ET)
+%entity type recognition (ETR)
+%entity extraction
 
-entity typing (ET)
-entity type recognition (ETR)
-entity extraction
-entity disambiguation (ED)
-named entity disambiguation (NED)
-
-
-subword tokenization (ml)
-sentencepiece tokenization (ml)
+%subword tokenization (ml)
+%sentencepiece tokenization (ml)

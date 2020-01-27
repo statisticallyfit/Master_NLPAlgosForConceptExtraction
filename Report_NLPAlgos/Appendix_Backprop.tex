@@ -32,7 +32,7 @@ A \textbf{fully-connected neural network} with $L$ layers has three categories o
 The neural network trains to update its weight matrix $W = \Big \{ w_{ij}^l \Big \}$, where $w_{ij}^l$ is the weight value from unit $u_i^l$'s output to another unit $u_j^{l+1}$. Whenever an output is computed from an input, a \textbf{nonlinearity function} $\sigma(\cdot)$ is applied to the input $x$ and this is intuitively seen as ``passing" the input through a layer.
 
 
-\subsection{Forward Propagation}
+\subsection{Forward Propagation} \label{sec:ForwardProp}
 
 \textbf{Forward propagation} or \textbf{forward pass} is the procedure used to propagate an input vector forward through the network layers. The original input is transformed over a series of nonlinear functions to get its activation values $a_i^l$, until the output layer is reached, where the activations are transformed via another nonlinearity to get the final activations $a^L$. 
 
@@ -55,14 +55,14 @@ The \textbf{forward propagation} algorithm is described as follows:
 \end{enumerate}
 
 
-\subsection{Error Calculation}
+\subsection{Error Calculation} \label{sec:ErrorCalc}
 
 After \textbf{forward propagation}, errors $E(a^L)$ are computed by comparing the network's output with the target predictions, via a loss function, and the error value is calculated for each neuron in the output layer. 
 
 The derivative of the error $E(a^L)$ with respect to computed activations $a_i^L$ is written $\frac {d} {d a_i^L} \Bigg( E(a^L) \Bigg)$ and depends only on the activations. This will be used to optimize the weights to minimize the error in the \textbf{backward propagation algorithm}.
     
 
-\subsection{Backward Propagation}
+\subsection{Backward Propagation} \label{sec:BackwardProp}
 
 \textbf{Backward propagation} consists of a first phase when the error values are propagated backwards across the graph, starting from the output layer and moving back over the input layer, until each neuron is updated with the error value. Backpropagation uses these errors to \emph{calculate the gradient of the loss function with respect to the weights in the network}. In the second phase, the gradient of the loss is passed as an argument to the optimization method so that the parameter weights can be adjusted, towards minimizing the loss function. 
 
