@@ -20,20 +20,20 @@ A key concept for what follows is \textbf{one-hot vector encoding}. This is the 
 
 \subsection{Basic Structure of Skip-Gram and CBOW} \label{sec:BasicSkipGramAndCBOW}
 
-Both the \nameref{sec:SkipGram} and \nameref{sec:CBOW} are \hyperref[sec:NeuralLM]{neural network language models} with one hidden layer. \newline
+Both the \nameref{sec:SkipGram} and \nameref{sec:CBOW} are \hyperref[sec:NeuralLM]{neural network language models} with one hidden layer.  
 
-The input vector $\overrightarrow{x} = (x_1,..., x_V)$ and output vector $\overrightarrow{y} = (y_1,...,y_V)$ are both \textbf{\hyperref[sec:OneHotEncodings]{one-hot encodings}}, and the hidden layer of the \hyperref[sec:NeuralLM]{neural network} is a \hyperref[sec:WordEmbeddings]{word embedding} with dimension $N$. (Thus even though the vocabulary size is $V$, the goal is to learn embeddings with size $N$). For a specific time step $t$, the model predicts one output word $w_{t+j}$ whose vector representation is $\overrightarrow{y}$, given one input word $w_t$, whose vector representation is $\overrightarrow{x}$. \newline 
+The input vector $\overrightarrow{x} = (x_1,..., x_V)$ and output vector $\overrightarrow{y} = (y_1,...,y_V)$ are both \textbf{\hyperref[sec:OneHotEncodings]{one-hot encodings}}, and the hidden layer of the \hyperref[sec:NeuralLM]{neural network} is a \hyperref[sec:WordEmbeddings]{word embedding} with dimension $N$. (Thus even though the vocabulary size is $V$, the goal is to learn embeddings with size $N$). For a specific time step $t$, the model predicts one output word $w_{t+j}$ whose vector representation is $\overrightarrow{y}$, given one input word $w_t$, whose vector representation is $\overrightarrow{x}$.   
 
-For \textbf{Skip-Gram}, $w_{t+j}$ is the predicted context word and $w_t$ is the input target word, but for \textbf{CBOW} $w_{t+j}$ is the predicted target word and $w_t$ is the input context word. \newline 
+For \textbf{Skip-Gram}, $w_{t+j}$ is the predicted context word and $w_t$ is the input target word, but for \textbf{CBOW} $w_{t+j}$ is the predicted target word and $w_t$ is the input context word.   
 
 Vectors $v_w$ and $v'_w$ are two representations of word $w$. Vector $v_w$ comes from the rows of the \textit{input layer $\rightarrow$ hidden layer weight matrix} $W$, and vector $v'_w$ comes from the rows of the \textit{hidden layer $\rightarrow$ output layer weight matrix} $W'$. We call $v_w$ the \textbf{input vector} and $v'_w$ is the \textbf{output vector} of the word $w$. 
 
 
 \subsubsection{Skip-Gram Model} \label{sec:SkipGram}
 
-The Skip-Gram model predicts context words given a single target word. It uses a fixed sliding window $c$, or size of the training context, to capture context along a sentence. A target word thus has left and right context words within that sliding window. This target center word is represented as a one-hot encoding that is input to a neural network which updates the vector with values near $1$ in cells corresponding to predicted context words (Weng, 2017). \newline
+The Skip-Gram model predicts context words given a single target word. It uses a fixed sliding window $c$, or size of the training context, to capture context along a sentence. A target word thus has left and right context words within that sliding window. This target center word is represented as a one-hot encoding that is input to a neural network which updates the vector with values near $1$ in cells corresponding to predicted context words (Weng, 2017).  
 
-Consider the following sentence from Weng (2017): ``The man who passes the sentence should swing the sword." Using a context window size of $c = 5$ and target word ``swing", the Skip-Gram should learn to predict the context words $\{\texttt{"sentence"}, \texttt{"should"}, \texttt{"the"}, \texttt{"sword"} \}$, and so the target-context word pairs fed into the model for training are: (\texttt{"swing"}, \texttt{"sentence"}), (\texttt{"swing"}, \texttt{"should"}), (\texttt{"swing"}, \texttt{"the"}), and (\texttt{"swing"}, \texttt{"sword"}). \newline
+Consider the following sentence from Weng (2017): ``The man who passes the sentence should swing the sword." Using a context window size of $c = 5$ and target word ``swing", the Skip-Gram should learn to predict the context words $\{\texttt{"sentence"}, \texttt{"should"}, \texttt{"the"}, \texttt{"sword"} \}$, and so the target-context word pairs fed into the model for training are: (\texttt{"swing"}, \texttt{"sentence"}), (\texttt{"swing"}, \texttt{"should"}), (\texttt{"swing"}, \texttt{"the"}), and (\texttt{"swing"}, \texttt{"sword"}).  
 
 \begin{figure}[h]
 \vspace{-5pt}
@@ -77,7 +77,7 @@ $$
 P \Big( w_{t+j} \; | \; w_t \Big) = \frac {\exp{ \Big( (v'_{w_{t+j}})^T  v_{w_t} \Big) }} {\sum_{w=1}^V \exp{ \Big( (v'_w)^T \cdot v_{w_t} \Big) }}
 $$
 where $w_t$ is the inputted target word, $w_{t+j}$ is the predicted context word, and $V$ is the number of vocabulary words. 
-\newline
+ 
 
 \nameref{app:Appendix_SkipGram} applies the Skip-Gram model to neural translation, using the word embedding concept. 
 
@@ -123,7 +123,7 @@ $$
 P \Big( w_t \; | \; w_I \Big) = \frac {\exp{ \Big( (v'_{w_O})^T  v_{w_I} \Big) }} {\sum_{w=1}^V \exp{ \Big( (v'_w)^T \cdot v_{w_I} \Big) }}
 $$
 where $w_I$ is the input context word, $w_O$ is the predicted target word, and $V$ is the number of vocabulary words. 
-\newline 
+  
 
 \nameref{app:Appendix_CBOW} applies the CBOW model to \nameref{nlptask:machinetranslationMT}, using the \hyperref[sec:WordEmbeddings]{word embedding} concept. 
 

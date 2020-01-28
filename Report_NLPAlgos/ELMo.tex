@@ -3,7 +3,7 @@
 
 \subsection{Combing Back To Polysemy} \label{sec:PolysemyAgainInElmo} 
 
-As explained in \nameref{sec:ProblemWithStaticEmbs}, the term \textbf{\hyperref[sec:Polysemy]{polysemy}} is the correspondence of one word to distinct meanings, and traditional embeddings fail to capture these senses, thus performing poorly on language modeling \hyperref[app:Appendix_NLPTasks]{NLP tasks}. However, \hyperref[sec:SolutionWithContextEmbs]{contextual embeddings (CWE)} prove superior since they create one vector representation for each word type in the vocabulary and also create distinct word vectors per token given a context (Wiedemann et al., 2019). \newline 
+As explained in \nameref{sec:ProblemWithStaticEmbs}, the term \textbf{\hyperref[sec:Polysemy]{polysemy}} is the correspondence of one word to distinct meanings, and traditional embeddings fail to capture these senses, thus performing poorly on language modeling \hyperref[app:Appendix_NLPTasks]{NLP tasks}. However, \hyperref[sec:SolutionWithContextEmbs]{contextual embeddings (CWE)} prove superior since they create one vector representation for each word type in the vocabulary and also create distinct word vectors per token given a context (Wiedemann et al., 2019).   
 
 For example, if instead models used only word and character embedding, the homonyms ``book" (text) and ``book" (reservation) would be assigned the \emph{same vector representation even though these are different words}. This vector representation may of course be created using context, as per the \nameref{sec:Word2Vec} or \nameref{sec:Glove}, but these meanings are still \emph{collapsed into a single representation}.
 
@@ -11,11 +11,11 @@ For example, if instead models used only word and character embedding, the homon
 \subsection{Motivation for ELMo} 
 
 
-In contrast to traditional word embeddings, \textbf{deep contextualized word embeddings} from Peters et al. (2018) capture word semantics to account for the context-dependent and polysemous nature of words. \newline
+In contrast to traditional word embeddings, \textbf{deep contextualized word embeddings} from Peters et al. (2018) capture word semantics to account for the context-dependent and polysemous nature of words.  
 
-These word vectors are ``learned functions of the internal states of a \hyperref[sec:BidirectionalLM]{bidirectional language model (biLM)}" that is pretrained on a large corpus. Due to this, the resulting word embeddings are coined \textbf{ELMo (Embeddings from Language Models)}. \newline
+These word vectors are ``learned functions of the internal states of a \hyperref[sec:BidirectionalLM]{bidirectional language model (biLM)}" that is pretrained on a large corpus. Due to this, the resulting word embeddings are coined \textbf{ELMo (Embeddings from Language Models)}.  
 
-\textbf{ELMo representations} are \emph{deep} since they are derived from all internal layers of the \hyperref[sec:BidirectionalLM]{biLM}. ELMo learns a ``linear combination of vectors stacked above each input word for each end task," improving performance of models that use only the top \hyperref[sec:LSTM]{LSTM} layer. \newline
+\textbf{ELMo representations} are \emph{deep} since they are derived from all internal layers of the \hyperref[sec:BidirectionalLM]{biLM}. ELMo learns a ``linear combination of vectors stacked above each input word for each end task," improving performance of models that use only the top \hyperref[sec:LSTM]{LSTM} layer.  
 
 Higher-level LSTM layers capture contextual meaning, useful for supervised \nameref{nlptask:wordsensedisambiguatioNWSD}, and lower layers capture syntax information, useful for \nameref{nlptask:postagging}. Coupled with the fact that mixing these signals allows the learned embeddings to select the types of semi-supervision most needed for each end task, ELMo embeddings are richer than traditional word vectors (Peters et al., 2018). 
 
@@ -35,7 +35,7 @@ where $\mathbf{h}_{k0}^{LM}$ is the token layer and the hidden state vector $\ma
 $$
 \textbf{ELMo}_k^{task} = E \Big( R_k; \theta^{task} \Big) = \gamma^{task} \; \sum_{j=0}^L s_j^{task} \; \mathbf{h}_{kj}^{LM}
 $$
-where the vector $\mathbf{s}^{task} = \Big\{ s_j^{task} \Big\}$ of softmax-normalized weights and task-dependent scalar parameter $\gamma^{task}$ allow the model for the specific $task$ to scale the entire $\textbf{ELMo}_k^{task}$ vector. The index $k$ corresponds to a $k$-th word, and index $j$ corresponds to the $j$-th layer out of $L$ layers. Here, $h_{kj}^{LM}$ is the output of the $j$-th \hyperref[sec:LSTM]{LSTM} for word $k$, and $s_j$ is the weight of $h_{kj}^{LM}$ used to compute the representation for word $k$. \newline 
+where the vector $\mathbf{s}^{task} = \Big\{ s_j^{task} \Big\}$ of softmax-normalized weights and task-dependent scalar parameter $\gamma^{task}$ allow the model for the specific $task$ to scale the entire $\textbf{ELMo}_k^{task}$ vector. The index $k$ corresponds to a $k$-th word, and index $j$ corresponds to the $j$-th layer out of $L$ layers. Here, $h_{kj}^{LM}$ is the output of the $j$-th \hyperref[sec:LSTM]{LSTM} for word $k$, and $s_j$ is the weight of $h_{kj}^{LM}$ used to compute the representation for word $k$.   
 
 The \hyperref[sec:BidirectionalLM]{biLM} in ELMo is task-agnostic, and ELMo combines the task-independent representations. Although the hidden states are fixed, this ELMo formulation is flexible enough to be combined in downstream models for various tasks (Kurita, 2018b). ELMo can be applied to specific tasks by concatenating the ELMo word embeddings with \hyperref[sec:StaticVsContextualEmb]{context-free word embeddings}, such as those from \nameref{sec:Glove}, Peters et al. (2018) say the concatenated input vector $\Big\{ \mathbf{x}_k \; ; \; \textbf{ELMo}_k^{task} \Big\}$ can be fed into a task-specific \hyperref[sec:RNN]{RNN} for processing. 
 
@@ -56,7 +56,7 @@ The \hyperref[sec:BidirectionalLM]{biLM} in ELMo is task-agnostic, and ELMo comb
 
 \subsubsection{ELMo's Key Feature} \label{sec:ELMoKeyFeature}
 
-Because ELMo improves task performance over word embeddings, this must mean its \hyperref[sec:BidirectionalLM]{biLM}'s contextual representation outputs are encoding task-specific information that traditional word vectors do not otherwise capture. In other words, the \hyperref[sec:BidirectionalLM]{biLM} must be sifting meaning of words using their context.\newline  
+Because ELMo improves task performance over word embeddings, this must mean its \hyperref[sec:BidirectionalLM]{biLM}'s contextual representation outputs are encoding task-specific information that traditional word vectors do not otherwise capture. In other words, the \hyperref[sec:BidirectionalLM]{biLM} must be sifting meaning of words using their context.   
 
 
 \begin{table}[ht!]

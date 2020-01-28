@@ -28,7 +28,7 @@ Consider the following sentence:
 \vspace{10pt}
 \end{shadequote}
 
-What does ``it” in this sentence refer to? Is ``it" referring to the road or to the animal? This question may be simple to a human but not to a machine. \newline
+What does ``it” in this sentence refer to? Is ``it" referring to the road or to the animal? This question may be simple to a human but not to a machine.  
 
 This is the motivation for \textbf{self-attention}: when the Transformer processes the word ``it", self-attention allows it to associate ``it" with ``animal". As the Transformer processes each word, self-attention allows it to look at other positions in the input sentence for clues to create a better encoding for this word. In each layer, a part of the attention mechanism that focuses on ``the animal" was \emph{baked in} to a part of the representation of the word ``it" when encoding this in the model (Trevett, 2020). 
 
@@ -45,7 +45,7 @@ Formally, ``an \textbf{\textit{attention function}} can be described as mapping 
     \item The Value matrix $V$ contains vector row-wise information for the rest of the words in the sentence. Multiplying the query vector with the key vector of a particular word, stored in $Q$ and $K$ computes a result that indicates how much \emph{value} vector $V$ to consider.
 \end{itemize}
 
-For the previous sentence, ``The animal didn't cross the road because it was too tired,"  $Q$ query refers to the word ``it"; $V$ contains vectors for words other than ``it", and $K$ contains vectors for each word, including ``it". \newline
+For the previous sentence, ``The animal didn't cross the road because it was too tired,"  $Q$ query refers to the word ``it"; $V$ contains vectors for words other than ``it", and $K$ contains vectors for each word, including ``it".  
 
 The final embedding of the word or \textbf{output} is a weighted sum of \textbf{value} vectors and \hyperref[cnc:softmaxLayer]{softmax probabilities} of the dot product between query and key vectors: 
 $$
@@ -91,7 +91,7 @@ and the corresponding word embedding vectors are denoted $\Big\{ \overrightarrow
 Using notation from Vaswani et al. (2017) and Alammar (2018b), 
 
 \begin{enumerate}
-    \item \textbf{Create Query, Key, Value Vectors}: The first step is to create query, key, value vectors from each of the Encoder's input word embeddings $\overrightarrow{w_i}$ corresponding each word $\overrightarrow{x_i}$ by multiplying the embedding by appropriate rows in the three matrices obtained during training. \newline
+    \item \textbf{Create Query, Key, Value Vectors}: The first step is to create query, key, value vectors from each of the Encoder's input word embeddings $\overrightarrow{w_i}$ corresponding each word $\overrightarrow{x_i}$ by multiplying the embedding by appropriate rows in the three matrices obtained during training.  
 
     \item \textbf{Calculate a Score}: The scores determine how much \emph{focus to place on other parts of the input sentence} while encoding a word at a certain position.  The score is calculated by taking the dot product of the \textbf{query} vector with the \textbf{key} vector of the respective word being scored. Thus for word $\overrightarrow{w_i}$, the scores are: 
     $$
@@ -161,9 +161,9 @@ Using notation from Vaswani et al. (2017) and Alammar (2018b),
 \subsubsection{Motivation for Multi-Head Attention}
 
 
-A \textbf{multi-head attention mechanism} comprises of several self-attention heads, enabling the Transformer to ``jointly attend to information from different representation subspaces at different positions." A single attention head cannot do this because of averaging (Vaswani et al., 2017). \newline
+A \textbf{multi-head attention mechanism} comprises of several self-attention heads, enabling the Transformer to ``jointly attend to information from different representation subspaces at different positions." A single attention head cannot do this because of averaging (Vaswani et al., 2017).  
 
-While a single attention function has $d_{model}$-dimensional keys, values and queries, a multi-head attention function ``linearly projects the queries, keys and values $H$ (number of attention heads) times with different, learned linear projections to $d_k$, $d_k$, and $d_v$ dimensions, respectively." Instead of calculating attention once, multi-head attention does self attention many times in parallel on the projected dimensions, concatenates the independent attention outputs, and once again projects the result into the expected dimension to give a final value (Vaswani et al., 2017; Weng, 2018).\newline 
+While a single attention function has $d_{model}$-dimensional keys, values and queries, a multi-head attention function ``linearly projects the queries, keys and values $H$ (number of attention heads) times with different, learned linear projections to $d_k$, $d_k$, and $d_v$ dimensions, respectively." Instead of calculating attention once, multi-head attention does self attention many times in parallel on the projected dimensions, concatenates the independent attention outputs, and once again projects the result into the expected dimension to give a final value (Vaswani et al., 2017; Weng, 2018).  
 
 For the example sentence, adding more attention heads enables the Transformer to focus on different words while encoding the meaning of word ``it." As ``it" is encoded, one attention head may focus most on ``the animal" while another focuses on ``tired", so the model's representation of ``it" incorporates some representation of all the words in the sentence (Trevett, 2020). 
 
@@ -189,7 +189,7 @@ Using notation from Vaswani et al. (2017) and Alammar (2018b):
     $$
     MultiHeadAttention(Q, K, V) = Concat(head_1, ..., head_H) \cdot W^O
     $$
-    \newline where $head_i = Attention(Q \cdot W_h^Q, K \cdot W_h^K, V \cdot W_h^V)$, where the attention function is simply $Attention(Q, K, V) = softmax \Bigg( \frac {\Large QK^T} {\Large \sqrt{d_k}} \Bigg) \cdot V$. The parameter matrices have the following dimensions:  $W^O \in \mathbb{R}^{\Large H \cdot d_v \times d_{model}}$, $\large W_h^Q \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^K \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^V \in \mathbb{R}^{\Large d_{model} \times d_v}$
+      where $head_i = Attention(Q \cdot W_h^Q, K \cdot W_h^K, V \cdot W_h^V)$, where the attention function is simply $Attention(Q, K, V) = softmax \Bigg( \frac {\Large QK^T} {\Large \sqrt{d_k}} \Bigg) \cdot V$. The parameter matrices have the following dimensions:  $W^O \in \mathbb{R}^{\Large H \cdot d_v \times d_{model}}$, $\large W_h^Q \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^K \in \mathbb{R}^{\Large d_{model} \times d_k}$, $\large W_h^V \in \mathbb{R}^{\Large d_{model} \times d_v}$
     
     
 \end{enumerate}
@@ -205,7 +205,7 @@ Otherwise, the sentences ``I like dogs more than cats" and ``I like cats more th
 
 \subsubsection{Describing Positional Encodings}
 
-A \textbf{positional encoding} follows a specific, learned pattern to identify word position or the distance between words in the sequence (Alammar, 2018b). The Transformer adds the positional encoding vector to each input embedding in both Encoder and Decoder stacks. \newline 
+A \textbf{positional encoding} follows a specific, learned pattern to identify word position or the distance between words in the sequence (Alammar, 2018b). The Transformer adds the positional encoding vector to each input embedding in both Encoder and Decoder stacks.   
 
 According to Vaswani et al. (2017), positional encodings use sinusoidal waves to allow the Transformer to more easily attend to relative positions since for any fixed offset $k$, the positional encoding $\textit{PosEnc}_{\textit{pos} + k}$ can be represented as a linear function of $\textit{PosEnc}_{\textit{pos}}$.
 $$
@@ -247,7 +247,7 @@ This \hyperref[sec:AttentionMechanism]{attention layer} differs from attention l
 
 \subsection{Encoder} \label{sec:TransformerEncoder}
 
-The Encoder is a \textbf{\hyperref[sec:BidirectionalLM]{bidirectional} \hyperref[sec:RNN]{recurrent network (RNN)}} consisting of a \hyperref[sec:ForwardLM]{forward} RNN and \hyperref[sec:BackwardLM]{backward} \hyperref[sec:RNN]{RNN}. The \hyperref[sec:ForwardLM]{forward} \hyperref[sec:RNN]{RNN} reads the input sequence $\overrightarrow{x} = \Big\{ x_1,...,x_{T_x} \Big\}$ from left to right to produce a sequence of forward hidden states $\Big\{ \overrightarrow{h_1},..., \overrightarrow{h_{T_x}} \Big\}$. The \hyperref[sec:BackwardLM]{backward} RNN reads the sequence in reverse order, so taking $x_{T_x}$ to $x_1$ and returns a sequence of backward hidden states $\Big\{ \overleftarrow{h_1},..., \overleftarrow{h_{T_x}} \Big\}$. Then, for each word $x_t$ an annotation is obtained by concatenating the corresponding forward hidden state vector $\overrightarrow{h}_t$ with the backward one $\overleftarrow{h}_t$, such that $h_t = \Big \{ \overrightarrow{h}_t^T \; ; \; \overleftarrow{h}_t^T \Big\}^T , \: t=1,...,T_x$. (Note: arrows here denote the direction of the network rather than vector notation.) This allows the annotation vector $h_t$ for word $x_t$ to contain contextual information by using previous and latter words (Bahdanau et al., 2016). These annotations are later used in the decoder to compute the context vector. \newline
+The Encoder is a \textbf{\hyperref[sec:BidirectionalLM]{bidirectional} \hyperref[sec:RNN]{recurrent network (RNN)}} consisting of a \hyperref[sec:ForwardLM]{forward} RNN and \hyperref[sec:BackwardLM]{backward} \hyperref[sec:RNN]{RNN}. The \hyperref[sec:ForwardLM]{forward} \hyperref[sec:RNN]{RNN} reads the input sequence $\overrightarrow{x} = \Big\{ x_1,...,x_{T_x} \Big\}$ from left to right to produce a sequence of forward hidden states $\Big\{ \overrightarrow{h_1},..., \overrightarrow{h_{T_x}} \Big\}$. The \hyperref[sec:BackwardLM]{backward} RNN reads the sequence in reverse order, so taking $x_{T_x}$ to $x_1$ and returns a sequence of backward hidden states $\Big\{ \overleftarrow{h_1},..., \overleftarrow{h_{T_x}} \Big\}$. Then, for each word $x_t$ an annotation is obtained by concatenating the corresponding forward hidden state vector $\overrightarrow{h}_t$ with the backward one $\overleftarrow{h}_t$, such that $h_t = \Big \{ \overrightarrow{h}_t^T \; ; \; \overleftarrow{h}_t^T \Big\}^T , \: t=1,...,T_x$. (Note: arrows here denote the direction of the network rather than vector notation.) This allows the annotation vector $h_t$ for word $x_t$ to contain contextual information by using previous and latter words (Bahdanau et al., 2016). These annotations are later used in the decoder to compute the context vector.  
 
 The Encoder is composed of $N$ identical \textbf{Encoder layers}, which together are named the \textbf{Encoder stack}. A single \textbf{Encoder layer}  is composed of two sub-layers: 
 \begin{enumerate}

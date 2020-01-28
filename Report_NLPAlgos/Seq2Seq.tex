@@ -10,7 +10,7 @@ $$
 h_t = \text{EncoderGRU} \Big( x_t, h_{t-1} \Big)
 $$ 
 where the context vector named $z$ equals the last hidden state: $z = h_{T_x}$. 
-\newline 
+  
 The context vector is then passed to the Decoder along with a target token $y_t$ and previous Decoder hidden state $s_{t-1}$ to return a current hidden state, $s_t$:
 $$
 s_t = \text{DecoderGRU} \Big( y_t, s_{t-1}, z \Big)
@@ -76,9 +76,9 @@ $$
 c_t = \sum_{i=1}^{T_x} \alpha_{ti} \cdot h_i
 $$
 
-Intuitively, the context vector is an \textbf{expectation}. The attention score $\alpha_{ti}$ is the probability that target word $y_t$ is aligned to (or translated from) an input word $x_j$. Then the $t$-th context vector $c_t$ is the expected hidden state over all hidden states $h_i$ with probabilities $\alpha_{ti}$, where these corresponding energies $e_{ti}$) quantify the importance of Encoder hidden state $h_i$ with respect to the previous Decoder hidden state $s_{t-1}$ in deciding the next Decoder state $s_t$ for generating target word $y_t$. \newline 
+Intuitively, the context vector is an \textbf{expectation}. The attention score $\alpha_{ti}$ is the probability that target word $y_t$ is aligned to (or translated from) an input word $x_j$. Then the $t$-th context vector $c_t$ is the expected hidden state over all hidden states $h_i$ with probabilities $\alpha_{ti}$, where these corresponding energies $e_{ti}$) quantify the importance of Encoder hidden state $h_i$ with respect to the previous Decoder hidden state $s_{t-1}$ in deciding the next Decoder state $s_t$ for generating target word $y_t$.   
 
-Through this attention mechanism in the Decoder, we can relieve the Encoder of the burden of encoding all source sentence information into a fixed-length vector, allowing information to spread through the hidden state sequence $\overrightarrow{h} = \Big \{ h_1,...,h_T\Big \}$ and later be retrieved by the Decoder (Trevett, 2020). \newline
+Through this attention mechanism in the Decoder, we can relieve the Encoder of the burden of encoding all source sentence information into a fixed-length vector, allowing information to spread through the hidden state sequence $\overrightarrow{h} = \Big \{ h_1,...,h_T\Big \}$ and later be retrieved by the Decoder (Trevett, 2020).  
 
 %\begin{center}
 %    \pythonCodeFile{code/tut3_DecoderClass.py}
