@@ -1,1 +1,53 @@
 \section{XLNet} \label{sec:XLNet}
+
+While most commonly in NLP models are in the form of neural networks that are pretrained on large, unlabeled data and then fine-tuned for specific tasks, different unsupervised pretraining loss functions have also been explored. From these, \textbf{autoregressive (AR) \hyperref[sec:LanguageModels]{language modeling} } and \textbf{autoencoding (AE) \hyperref[sec:LanguageModels]{language modeling} } have been the most powerful pretraining objectives. 
+
+\subsection{autoregressive language model (AR)}\label{sec:autoregressiveLM}
+
+From Yang et al. (2020), an \textbf{autoregressive \hyperref[sec:LanguageModels]{language model} (AR)} \emph{autoregressively} estimates the probability distribution of a text sequence $\textbf{x} = \Big\{ x_1,...,x_T \Big\}$. The AR model factorizes the likelihood into a forward product, $P(\textbf{x}) = \prod_{t=1}^T P \Big(x_t \; | \; \textbf{x}_{< t} \Big)$, using tokens before a timestep, or a backward product, $P(\textbf{x}) = \prod_{t=T}^1 P \Big(x_t \; | \; \textbf{x}_{> t} \Big)$, using tokens after a timestep. Then, a \hyperref[sec:NeuralLM]{neural network} is trained to model either conditional distribution. But due to AR's unidirectional context, it cannot model bidirectional contexts, and thus performs poorly for downstream \hyperref[app:Appendix_NLPTasks]{nlp tasks}. 
+
+\subsection{autoencoding language model (AE)}\label{sec:autoencodingLM}
+
+An \textbf{autoencoding \hyperref[sec:LanguageModels]{language model} (AE)} recreates original data from corrupted input, like \nameref{sec:BERT}. Given a input sequence, some tokens are randomly masked and the model must guess the correct tokens. Since AE modeling does not estimate densities, it can learn bidirectional contexts. 
+
+
+\subsection{Problems With BERT}
+
+From Yang et al. (2020), a \emph{forward} \nameref{sec:autoregressiveLM} maximizes the likelihood of an input sequence by using a forward autoregressive using a \emph{forward} autoregressive decomposition: 
+$$
+\textit{max}_\theta \Bigg( \textit{log}  \; P_\theta(\textbf{x})  \Bigg) = \sum_{t=1}^T \textit{log} \; P_\theta \Big(x_t \; | \; \textbf{x}_{< t} \Big)  
+$$
+
+Meanwhile, \nameref{sec:autoencodingLM}s like \nameref{sec:BERT} takes an input sequence $\textbf{x}$, and corrupts it $\hat{\textbf{x}}$ by masking some tokens. Let $\overline{\textbf{x}}$ denote only masked tokens. Then the autoencoding's objective is to recreate the masked tokens $\overline{\textbf{x}}$ from the corrupted input $\hat{\textbf{x}}$: 
+$$
+\textit{max}_\theta \Bigg( \textit{log}  \; P_\theta(\overline{\textbf{x}} \; | \; \hat{\textbf{x}})  \Bigg) \;\; \mathlarger{\mathlarger{\approx}} \;\; \sum_{t=1}^T m_t \; \textit{log} \; P_\theta \Big(x_t \; | \; \hat{\textbf{x}} \Big) 
+$$
+where $m_t = 1$ indicates that the input token $x_t$ is masked. 
+
+
+
+% CORRP DATA
+Artificial symbols like masking tokens used in \nameref{sec:BERT}'s pretraining \nameref{sec:maskedlanguagemodelMLM} task do not appear in real data during fine-tuning, causing a discrepancy between these steps. 
+
+
+% INDEP
+Also, \nameref{sec:BERT} trivially predicted tokens are independent of each other given the unmasked tokens, but this is generally not true since long-range dependencies are abundant in NLP. 
+
+
+\subsection{Motivation for XLNet}
+
+\subsection{Describing XLNet}
+
+key question ....
+
+
+
+\subsubsection{Permutation Language Model (AR)}
+
+\subsubsection{Two-Stream Self-Attention }
+
+
+\subsubsection{Relative Segment Encodings}
+
+
+\subsection{Experimental Results of XLNet}

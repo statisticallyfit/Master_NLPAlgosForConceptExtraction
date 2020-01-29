@@ -114,7 +114,9 @@ The \textbf{entailment recognition} task is a kind of lexical entailment task or
 
 Given a pair of words, the \textbf{entailment directionality prediction} task must predict if the previous word entails the next one, or vice versa. It is known that entailment holds for the given word pair and only its directionality is being predicted (Brazinkas et al., 2018). 
 
+\subsection{sentiment classification (SC)} \label{nlptask:sentimentclassificationSC}
 
+See \nameref{nlptask:sentimentanalysisSA}.
 
 \subsection{sentiment analysis (SA)} \label{nlptask:sentimentanalysisSA}
 
@@ -164,6 +166,10 @@ In the \textbf{span labeling} task, spans or groups of words are labeled. This c
 
 \textbf{Tokenization} or \textbf{segmentation} is the task-specific process of segmenting text into machine-understandable language. The term \emph{tokens} describes words but also punctuation, hyperlinks, and possessive markers, such as apostrophes (Mohler, 2018). For example, lemma-based tokenization would specify that the tokens ``cat" and plural ``cats" would mean one word with the same stem or core meaning-bearing unit. Other forms of tokenization exist to differentiate word form, so those would be distinct tokens. Sentences and even characters can be tokenized out of a paragraph (Chromiak, 2017). Types of tokenization are \textbf{subword tokenization} and \textbf{sentence-piece tokenization}, a key feature in \nameref{sec:TransformerXL}. 
 
+
+\subsection{transfer learning} \label{nlptask:transferlearning}
+
+\textbf{Transfer learning} or \textbf{domain adaptation} describes how a model created for one task is reused for a different task. Popularly used in machine learning where pre-trained models like \nameref{sec:BERT} are used as starting points for downstream tasks that require much time and resources in order to train. Basically, knowledge of the first task is transferred to the second, often more specific, task (Brownlee, 2017).
 
 
 \subsection{natural language inference (NLI)} \label{nlptask:naturallanguageinferenceNLI}

@@ -33,7 +33,7 @@ What does ``it” in this sentence refer to? Is ``it" referring to the road or t
 This is the motivation for \textbf{self-attention}: when the Transformer processes the word ``it", self-attention allows it to associate ``it" with ``animal". As the Transformer processes each word, self-attention allows it to look at other positions in the input sentence for clues to create a better encoding for this word. In each layer, a part of the attention mechanism that focuses on ``the animal" was \emph{baked in} to a part of the representation of the word ``it" when encoding this in the model (Trevett, 2020). 
 
 
-\subsubsection{Query, Key, Value}
+\subsubsection{Query, Key, Value} \label{sec:QKV}
 
 Formally, ``an \textbf{\textit{attention function}} can be described as mapping a query and a set of key-value pairs to an output, where the \textbf{query, keys, values}, and output are all vectors. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key" (Vaswani et al., 2017). 
 
