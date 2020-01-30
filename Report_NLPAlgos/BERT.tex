@@ -12,7 +12,7 @@ Previous methods like \textbf{ULMFiT} and \nameref{sec:ELMo} use a \hyperref[sec
 \centering
 \includegraphics[width=0.9\textwidth]{imgs/bert_vs_elmo_vs_gpt.png}
 \vspace{-5pt}
-\caption{\footnotesize Comparing pre-training models: \nameref{sec:BERT} uses a \hyperref[sec:BidirectionalLM]{bidirectional} \nameref{sec:Transformer}. OpenAI GPT uses a \hyperref[sec:ForwardLM]{forward} \nameref{sec:Transformer}. \nameref{sec:ELMo} combines independently-trained \hyperref[sec:ForwardLM]{forward} and \hyperref[sec:BackwardLM]{backward} \hyperref[sec:LSTM]{LSTM}s. Among the three, only BERT embeddings are jointly conditioned on forward and backward context in all layers. Alongside architectural differences, BERT and OpenAI GPT are fine-tuning approaches, while ELMo is a feature-based approach (Devlin et al., 2019). \textit{NOTE: $E_n =$ the $n$-th token in the input sequence, and $T_n =$ the corresponding output embedding}. From \emph{BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding}, by Devlin et al., 2019. \url{https://arxiv.org/pdf/1810.04805.pdf}. Copyright 2019 by Devlin et al.}
+\caption{\footnotesize Comparing pre-training models: BERT uses a \hyperref[sec:BidirectionalLM]{bidirectional} \nameref{sec:Transformer}. OpenAI GPT uses a \hyperref[sec:ForwardLM]{forward} \nameref{sec:Transformer}. \nameref{sec:ELMo} combines independently-trained \hyperref[sec:ForwardLM]{forward} and \hyperref[sec:BackwardLM]{backward} \hyperref[sec:LSTM]{LSTM}s. Among the three, only BERT embeddings are jointly conditioned on forward and backward context in all layers. Alongside architectural differences, BERT and OpenAI GPT are fine-tuning approaches, while ELMo is a feature-based approach (Devlin et al., 2019). \textit{NOTE: $E_n =$ the $n$-th token in the input sequence, and $T_n =$ the corresponding output embedding}. From \emph{BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding}, by Devlin et al., 2019. \url{https://arxiv.org/pdf/1810.04805.pdf}. Copyright 2019 by Devlin et al.}
 \vspace{-5pt}
 \label{fig:NAME}
 \end{figure}
@@ -59,7 +59,7 @@ It is a well-known problem that bidirectional conditioning causes lower layers t
 
 BERT's solution is to use a \textbf{masked language model (MLM)}, which randomly masks some of the input tokens with the aim of predicting the original vocabulary id of the masked word using only its context. This fuses left and right context to get \emph{deep} bidirectional context, unlike \nameref{sec:ELMo}'s shallow left-to-right language model (Devlin et al., 2019).  
 
-An issue with masking is that the model only predicts the \texttt{[MASK]} token when it is present in the input, while the intention was for the model to predict the correct tokens regardless of which tokens were present in input (Kurita, 2019). This hampers performance since BERT would learn a contextual meaning of the mask token, causing it to learn slower since only $15 \%$ of tokens are masked. To resolve this, BERT varies its masking strategy: (1) replace the word to be masked with \texttt{[MASK]} only with $80\%$ probability; (2) replace the word to be masked with a random word $10 \%$ of the time; and (3) keep the masked word $10 \%$ of the time. For example, if the sentence was ``The cow jumped over the moon," and if the token to be masked was ``moon", then $80 \%$ of the time, the replacement would be ``The cow jumped over the \textbf{\texttt{[MASK]}}"; $10 \%$ of the time a random token would be used ``The cow jumped over the \textbf{seaweed}"; and the remaining times the sentence would remain the same. 
+An issue with masking is that the model only predicts the \texttt{[MASK]} token when it is present in the input, while the intention was for the model to predict the correct tokens regardless of which tokens were present in input (Kurita, 2019a). This hampers performance since BERT would learn a contextual meaning of the mask token, causing it to learn slower since only $15 \%$ of tokens are masked. To resolve this, BERT varies its masking strategy: (1) replace the word to be masked with \texttt{[MASK]} only with $80\%$ probability; (2) replace the word to be masked with a random word $10 \%$ of the time; and (3) keep the masked word $10 \%$ of the time. For example, if the sentence was ``The cow jumped over the moon," and if the token to be masked was ``moon", then $80 \%$ of the time, the replacement would be ``The cow jumped over the \textbf{\texttt{[MASK]}}"; $10 \%$ of the time a random token would be used ``The cow jumped over the \textbf{seaweed}"; and the remaining times the sentence would remain the same. 
 
 
 
@@ -100,7 +100,7 @@ BERT has surpassed state-of-the-art performance in a wide range of \hyperref[app
 
 Firstly, Clark et al. (2019) found that BERT's attention heads behave similarly, like focusing on positional offsets or attending broadly over an entire sentence. 
 
-Also, while individual attention heads do not capture syntax dependency structure as a whole, it was found that certain attention heads are better at certain syntax dependency relations. For example, the heads detect ``direct objects of verbs, determiners of nouns, objects of prepositions, and objects of possessive pronouns with > $75 \%$ accuracy (Clark et al., 2019). 
+Secondly, while individual attention heads do not capture syntax dependency structure as a whole, it was found that certain attention heads are better at detecting various syntax dependency relations. For example, the heads detect ``direct objects of verbs, determiners of nouns, objects of prepositions, and objects of possessive pronouns with > $75 \%$ accuracy (Clark et al., 2019). 
 
 \begin{figure}
 \centering
@@ -119,16 +119,14 @@ Also, while individual attention heads do not capture syntax dependency structur
 \end{figure}
 
 
-\cref{fig:bertHeadDirectObject} shows that attention heads 8-10 learn how direct objects attend to their verbs, and achieves high accuracy at the direct object relation task. The fact that BERT learns this via self-supervision coupled with the heads' propensity for learning syntax may explain BERT's success. 
-
-Also, \cref{fig:bertCoref} shows BERT's attention heads performed well for the semantic task \nameref{nlptask:coreferenceresolutionCR}. This task is more challenging than syntax tasks since \hyperref[nlptask:coreferenceresolutionCR]{coreference} links span longer than syntax dependencies, and even state-of-the-art models do worse at \hyperref[nlptask:coreferenceresolutionCR]{coreference} than syntactic resolution. 
+Attention heads 8-10 in \cref{fig:bertHeadDirectObject} learn how direct objects attend to their verbs, and achieves high accuracy at the direct object relation task. The fact that BERT learns this via self-supervision coupled with the heads' propensity for learning syntax may explain BERT's success. Attention heads 5-4 in \cref{fig:bertCoref} perform \nameref{nlptask:coreferenceresolutionCR}. This task is more challenging than syntax tasks since \hyperref[nlptask:coreferenceresolutionCR]{coreference} links span longer than syntax dependencies, and even state-of-the-art models struggle at this task.
 
 
 
 
 \subsubsection{BERT's Limitation In Segment-Level Representation}
 
-However, BERT has limitations since, instead of using separator tokens to gather segment-level information, BERT actually views separator tokens \texttt{[SEP]} as stub operations for attention heads when the head is not needed for a current task. 
+Instead of using separator tokens to gather segment-level information, BERT actually views separator tokens \texttt{[SEP]} as ``no-op" or stub operations for attention heads when the head is not needed for a current task. 
 
 \begin{figure}[h]
 \vspace{-5pt}
@@ -142,7 +140,7 @@ However, BERT has limitations since, instead of using separator tokens to gather
 
 Authors hypothesized as to why so many of BERT's attention heads focus on separator tokens, a feature visible in \cref{fig:bertSEPAttention}. But there are several investigations that prove this may not be the case: 
 \begin{enumerate}
-    \item If BERT were indeed trying to gather segment-level information, then attention heads processing \texttt{[SEP]} should attend broadly over the entire segment to create the segment representations. But FIGURE 5 shows that in heads 8-10 direct objects attend to their verbs, while all other words attend to the \texttt{[SEP]} token. 
+    \item If BERT were indeed trying to gather segment-level information, then attention heads processing \texttt{[SEP]} should attend broadly over the entire segment to create the segment representations. But \cref{fig:bertHeadDirectObject} shows that in heads 8-10 direct objects attend to their verbs, while all other words attend to the \texttt{[SEP]} token. 
     
     \item Gradient measures were used to study how much the attention to a token would change BERT's outputs. While attention to \texttt{[SEP]} increases from layer 5 onwards (visible in \cref{fig:bertSEPAttention}), the gradients for attention to \texttt{[SEP]} decrease substantially (visible in \cref{fig:bertGradient}). This means attending to \texttt{[SEP]} does not significantly change BERT's outputs. 
 \end{enumerate}
@@ -160,7 +158,7 @@ Authors hypothesized as to why so many of BERT's attention heads focus on separa
 
 
 
-The above two investigations support the conclusion that BERT's attention heads only attend to \texttt{[SEP]} when they have no other job, not to gather segment-level information. However, \nameref{sec:TransformerXL} by design improves over \nameref{sec:BERT} in this regard. 
+The above two investigations suggest BERT's attention heads only attend to \texttt{[SEP]} when they have no other job, not to gather segment-level information. However, \nameref{sec:TransformerXL} by design improves over BERT in this regard. 
 
 
 
@@ -172,15 +170,15 @@ The above two investigations support the conclusion that BERT's attention heads 
 
 \subsubsection{BERT's Contribution To Polysemy} % PAPER: DOEs bert make any sense
 
-Using a kNN classification, Wiedemann et al. (2019) compared the \hyperref[sec:SolutionWithContextEmbs]{contextual embeddings (CWE)s} of \nameref{sec:ELMo} and \nameref{sec:BERT} on the \nameref{nlptask:wordsensedisambiguatioNWSD} task and found that \nameref{sec:BERT} places \hyperref[sec:Polysemy]{polysemic} words into distinct regions according to their senses, while \nameref{sec:ELMo} cannot. Specifically, in \nameref{sec:ELMo} embeddings, major word senses are less strongly separated than in the \nameref{sec:BERT} embedding space, where some senses are sharply clustered. 
+Using a kNN classification, Wiedemann et al. (2019) compared the \hyperref[sec:SolutionWithContextEmbs]{contextual embeddings (CWE)s} of \nameref{sec:ELMo} and BERT on the \nameref{nlptask:wordsensedisambiguatioNWSD} task and found that BERT places \hyperref[sec:Polysemy]{polysemic} words into distinct regions according to their senses, while \nameref{sec:ELMo} cannot. Specifically, in \nameref{sec:ELMo} embeddings, major word senses are less strongly separated than in the BERT embedding space, where some senses are sharply clustered. 
 
-In \cref{tbl:bertPolysemy} Wiedemann et al. (2019) also made inferences about the semantic features of \nameref{sec:BERT}'s embeddings by studying how \nameref{sec:BERT} matched word senses from the test set to a given \hyperref[sec:Polysemy]{polysemic} word from a training set.
+In \cref{tbl:bertPolysemy} Wiedemann et al. (2019) also made inferences about the semantic features of BERT's embeddings by studying how BERT matched word senses from the test set to a given \hyperref[sec:Polysemy]{polysemic} word from a training set.
 
 
 
 \begin{table}[ht!]
   \centering
-  \caption{\footnotesize Example predictions by \nameref{sec:BERT} based on nearest neighbor sentences. The \hyperref[sec:Polysemy]{polysemic} word is \textbf{bolded}, and has a WordNet description tag describing its correct sense to be predicted. {\color{ForestGreen} True positives by BERT are green} while {\color{Red} false positives made by BERT are red}. From \emph{(adapted) Table 4 in Does BERT Make Any Sense? Interpretable Word Sense Disambiguation with Contextualized Embeddings}, by Wiedemann et al., 2019. \url{https://arxiv.org/pdf/1909.10430.pdf}. Copyright 2019 by Wiedemann et al.}
+  \caption{\footnotesize Example predictions by BERT based on nearest neighbor sentences. The \hyperref[sec:Polysemy]{polysemic} word is \textbf{bolded}, and has a WordNet description tag describing its correct sense to be predicted. {\color{ForestGreen} True positives by BERT are green} while {\color{Red} false positives made by BERT are red}. From \emph{(adapted) Table 4 in Does BERT Make Any Sense? Interpretable Word Sense Disambiguation with Contextualized Embeddings}, by Wiedemann et al., 2019. \url{https://arxiv.org/pdf/1909.10430.pdf}. Copyright 2019 by Wiedemann et al.}
   \begin{tabular}{ c }
     
     \begin{minipage}{.9\textwidth}
@@ -193,8 +191,8 @@ In \cref{tbl:bertPolysemy} Wiedemann et al. (2019) also made inferences about th
 
 
 
-\nameref{sec:BERT} did well when the data had \emph{vocabulary overlap} in context, such as in example (2) ``along the \emph{bank} of the river" (the input text) and `along the \emph{bank} of the river Greta" (nearest neighbor found by \nameref{sec:BERT}). \nameref{sec:BERT} also predicted correctly when text had \emph{semantic overlap}, such as in example (3)'s input ``little earthy bank" and nearest neighbor ``huge bank [of snow]". 
+BERT did well when the data had \emph{vocabulary overlap} in context, such as in example (2) ``along the \emph{bank} of the river" (the input text) and `along the \emph{bank} of the river Greta" (nearest neighbor found by BERT). BERT also predicted correctly when text had \emph{semantic overlap}, such as in example (3)'s input ``little earthy bank" and nearest neighbor ``huge bank [of snow]". 
 
-However, \emph{vocabulary and semantic overlap in conjunction} led \nameref{sec:BERT} to make false predictions. Example (5) in \cref{tbl:bertPolysemy} shows \nameref{sec:BERT} predicted ``land bank" as in a \emph{supply or stock} while the correct sense of ``land bank" was \emph{financial institution}. In example (10), the correct word sense of ``balloon" is a verb while \nameref{sec:BERT} predicted a noun sense, so it did not even get the word class correct. Even harder for \nameref{sec:BERT} was to distinguish verb senses correctly; exmaple (12) shows the correct sense label of the \hyperref[sec:Polysemy]{polysemic} word ``watch" was \emph{to look attentively} while BERT's predicted sense was \emph{to follow with the eyes or the mind; observe}. 
+However, \emph{vocabulary and semantic overlap in conjunction} led BERT to make false predictions. Example (5) in \cref{tbl:bertPolysemy} shows BERT predicted ``land bank" as in a \emph{supply or stock} while the correct sense of ``land bank" was \emph{financial institution}. In example (10), the correct word sense of ``balloon" is a verb while BERT predicted a noun sense, so it did not even get the word class correct. Even harder for BERT was to distinguish verb senses correctly; exmaple (12) shows the correct sense label of the \hyperref[sec:Polysemy]{polysemic} word ``watch" was \emph{to look attentively} while BERT's predicted sense was \emph{to follow with the eyes or the mind; observe}. 
 
-Despite \nameref{sec:BERT}'s limitations, the authors conclude still that \nameref{sec:BERT} captures \hyperref[sec:Polysemy]{polysemy} more successfully than \nameref{sec:ELMo}, inspiring future work in using \nameref{nlptask:wordsensedisambiguatioNWSD} to compare \nameref{sec:BERT} to models like \nameref{sec:XLNet}. 
+Despite BERT's limitations, the authors conclude still that BERT captures \hyperref[sec:Polysemy]{polysemy} more successfully than \nameref{sec:ELMo}, inspiring future work in using \nameref{nlptask:wordsensedisambiguatioNWSD} to compare BERT to models like \nameref{sec:XLNet}. 

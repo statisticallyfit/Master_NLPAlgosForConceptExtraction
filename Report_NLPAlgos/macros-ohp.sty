@@ -47,7 +47,7 @@
 \setlength{\parskip}{5pt}
 
 % Commenting in latex --------------------------
-%\usepackage{verbatim}
+\usepackage{verbatim}
 
 
 
@@ -92,12 +92,12 @@
 %\setmainfont{TeX Gyre PagellaX}
 %\setmainfont{Palladio Uralic}
 %\setmainfont{PT Serif}
-\setmainfont{Crimson}
+%\setmainfont{Crimson}
 %\setmainfont{Asea}
 %\setmainfont{Quattrocento}
-%\setmainfont{Alegreya}
+\setmainfont{Alegreya}
 %\setmainfont{Accanthis ADF Std No3} 
-% \setmainfont{IndUni-P} --- NICE
+%\setmainfont{IndUni-P} %--- NICE
 %*****
 %\setmainfont{Libertinus Sans} 
 %\setmainfont{Linux Biolinum O}
@@ -108,6 +108,22 @@
 % Line spacing ----------------
 %\renewcommand{\baselinestretch}{0.5}
 
+% My line spacing for the title page: 
+%\linespread{1.0}  % was 1.5
+
+
+\linespread{0.9}
+
+% Section spacing (spaces between sections and text) ------
+\usepackage[compact]{titlesec}
+
+\titlespacing{\section}{0pt}{10pt}{2pt}
+\titlespacing{\subsection}{0pt}{10pt}{2pt}
+\titlespacing{\subsubsection}{0pt}{10pt}{2pt}
+
+%\titlespacing{\section}{0pt}{*0}{*0}
+%\titlespacing{\subsection}{0pt}{*0}{*0}
+%\titlespacing{\subsubsection}{0pt}{*0}{*0}
 
 
 % Code setup -----------------------------------------------------
@@ -163,6 +179,8 @@
 
 
 % !TEX TS-program = xeLaTeX
+
+\begin{comment}
 
 \usepackage{ifxetex,ifluatex}
 \usepackage{etoolbox}
@@ -235,7 +253,7 @@
 \begin{snugshade}\begin{quote}\openquote}
 {\shadequoteauthor\quotefill\closequote{\yshift}\end{quote}\end{snugshade}}
 
-
+\end{comment}
 
 
 

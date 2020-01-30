@@ -83,9 +83,9 @@ To remedy this and make their recurrence scheme work, the authors created a \tex
 
 \subsection{Experimental Results of Transformer-XL} \label{sec:ExpResultsTransXL}
 
-\subsubsection{Ablation Study for Investigating Segment-Level Recurrence}
+\subsubsection{Ablation Study for Segment-Level Recurrence and Relative Positional Encodings}
 
-The authors seek to isolate the effects of Transformer-XL's new recurrence mechanism, using the segment-level recurrence with different encoding schemes. In \cref{tbl:transXL_ablationRECURR}, Shaw et al. (2018) uses relative encoding, and Vaswanie and Al-Rfou use absolute encodings. 
+The authors seek to isolate the effects of Transformer-XL's \hyperref[sec:SegmentLevelRec]{segment-level recurrence mechanism} using with different encoding schemes. In \cref{tbl:transXL_ablationRECURR}, Shaw et al. (2018) uses relative encodings, and Vaswani and Al-Rfou use absolute encodings. 
 
 
 
@@ -103,4 +103,4 @@ The authors seek to isolate the effects of Transformer-XL's new recurrence mecha
 \end{figure}
 
 
-The \cref{tbl:transXL_ablationRECURR} shows that both segment-level recurrence and the relative positional encoding must be used in conjunction for best performance, since when using the new recurrence with the new encodings, the Transformer-XL can generalize to larger attention sequences (with length $500$) during evaluation while getting lowest perplexity score of $26.7$. However, if the Transformer-XL does not use the new recurrence and uses the new encodings, even using shorter attention sequences of $260$ and $120$ with different \hyperref[sec:BackwardProp]{backprop} loss schemes cannot help lower its perplexity scores, as shown in the last two rows of \cref{tbl:transXL_ablationRECURR}'s Transformer-XL section. The standard \nameref{sec:Transformer} does poorly in general, showing high overall perplexities even using short attention lengths. 
+The \cref{tbl:transXL_ablationRECURR} shows that both \hyperref[sec:SegmentLevelRec]{segment-level recurrence} and the \hyperref[sec:RelativePosEnc]{relative positional encoding} must be used in conjunction for best performance, since when using the new recurrence with the new encodings, the Transformer-XL can generalize to larger attention sequences (with length $500$) during evaluation while getting lowest perplexity score of $26.7$. However, if the Transformer-XL does not use the new recurrence and uses the new encodings, even using shorter attention sequences of $260$ and $120$ with different \hyperref[sec:BackwardProp]{backprop} loss schemes cannot help lower its perplexity scores, as shown in the last two rows of \cref{tbl:transXL_ablationRECURR}'s Transformer-XL section. The standard \nameref{sec:Transformer} does poorly in general, showing high overall perplexities even using short attention lengths. 

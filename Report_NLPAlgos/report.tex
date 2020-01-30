@@ -17,7 +17,7 @@
 
 % Ana
 % My line spacing for the title page: 
-\linespread{1.0}  % was 1.5
+%\linespread{1.0}  % was 1.5
 
 \begin{document}
 	\begin{titlingpage}
@@ -43,10 +43,22 @@ and the Australian Mathematical Sciences Institute.
 
 	\end{titlingpage}
 
-% ----------------------------------------------------------------
-% Report Start
 
+
+
+
+% Report Start
 \input{Abstract.tex} % done
+
+% Set smaller line spacing for table of contents
+%{\linespread{0.7} \tableofcontents}
+%\renewcommand{\baselinestretch}{0.75}\normalsize
+\tableofcontents
+% Setting line spacing after TBC:
+%\renewcommand{\baselinestretch}{0..9}\normalsize
+
+%\clearpage 
+
 \input{Introduction.tex} % done
 \input{WordEmbeddings.tex}% done
 \input{LanguageModels.tex}% done
@@ -54,11 +66,14 @@ and the Australian Mathematical Sciences Institute.
 \input{GloVe.tex}% done
 \input{Seq2Seq.tex}% done
 \input{Transformer.tex}% done
-\input{ELMo.tex}
-\input{BERT.tex}
-\input{TransformerXL.tex}
+\input{ELMo.tex}% done
+\input{BERT.tex}% done
+\input{TransformerXL.tex}% done
 \input{XLNet.tex}
 \input{ERNIE.tex}
+
+\input{Conclusion.tex}
+\input{References.tex}
 
 \appendix
 \clearpage 
@@ -67,12 +82,14 @@ and the Australian Mathematical Sciences Institute.
 \input{Appendix_Backprop.tex}
 \clearpage
 \input{Appendix_RNN_LSTM.tex}
-\clearpage
-\input{Appendix_Code_SkipGramModel.tex}
-\clearpage
-\input{Appendix_Code_CBOWModel.tex}
+%\clearpage
+%\input{Appendix_Code_SkipGramModel.tex}
+%\clearpage
+%\input{Appendix_Code_CBOWModel.tex}
 \clearpage
 \input{Appendix_Code_SeqToSeqWithAttention.tex}
+
+
 %\clearpage
 %\input{Appendix_Tutorial_TransformerModel.tex}
 %\clearpage

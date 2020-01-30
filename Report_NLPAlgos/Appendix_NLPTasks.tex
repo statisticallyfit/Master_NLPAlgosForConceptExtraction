@@ -7,6 +7,15 @@ Most of these definitions are from Collobert et al. (2011).
 
 \textbf{Semantic parsing (SP)} converts a natural language representation into machine-understanding form. Types include \nameref{nlptask:machinetranslationMT} and \nameref{nlptask:questionansweringQA}.
 
+
+\subsection{key phrase extraction} \label{nlptask:keyphraseextraction}
+
+\textbf{Key phrase extraction} task uses morphological,  syntactic information, and typed grammar dependencies to learn relevant phrases, and is an important tool for concept extraction. Systems may use \nameref{nlptask:postagging} and \nameref{nlptask:namedentityrecognitionNER} and \nameref{nlptask:namedentityrecognitionNER} to recognize that \texttt{``Air Canada"} is a single entity composed of separate words which only when combined give new meaning (Mikolov et al., 2013a). In some cases, \nameref{nlptask:postagging} uses noun phrases to extract key phrases. 
+
+Key phrase extraction is used in the real world to automate data collection; it results in benefits like data scalability and consistent criteria, so concepts can become used and interlinked at fine-grained levels (``Keyword Extraction", 2019). 
+
+
+
 \subsection{machine translation (MT)} \label{nlptask:machinetranslationMT}
 
 \textbf{Machine translation (MT)} task translates an input text in a given language to a target language. There are many population neural translation models like the \nameref{sec:Seq2Seq} and \nameref{sec:BERT} that use the \hyperref[sec:AttentionMechanism]{attention mechanism} to account for contextual meaning across a sentence and not just translate word by word. 
