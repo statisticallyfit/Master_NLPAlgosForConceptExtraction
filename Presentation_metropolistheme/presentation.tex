@@ -1,0 +1,58 @@
+\documentclass[10pt, svgnames]{beamer}
+% adding svgnames options to the documentclass isntead since xcolor has already been loaded by metropolis
+
+
+\usepackage{macros}
+
+
+
+
+
+
+
+
+% TItle page -----------------------------------------------------------
+
+
+\def\presentationtitle{Study and Application of Concept-Extraction \newline Algorithms in Natural Language Processing (NLP)}
+
+
+\title{\LARGE \presentationtitle}
+\author{Ana-Maria Vintila\newline
+	\small Supervised by Professor Brenda Vo
+}
+\institute{University of New England, Australia}
+
+\date{}
+
+
+
+\begin{document}
+
+\maketitle
+
+%\begin{frame}{Table of contents}
+%  \setbeamertemplate{section in toc}[sections numbered]
+%  \tableofcontents%[hideallsubsections]
+%\end{frame}
+
+
+% Change font size:
+\ContentFontSize
+
+\input{Intro_Me_Frame.tex}
+
+\input{Intro_Frame.tex}
+\input{WordEmb_Frame.tex}
+\input{LanguageModels_Frame.tex}
+\input{Word2Vec_Frame.tex}
+\input{GloVe_Frame.tex}
+\input{Seq2Seq_Frame.tex}
+\input{Transformer_Frame.tex}
+\input{ELMo_Frame.tex}
+\input{BERT_Frame.tex}
+\input{TransformerXL_Frame.tex}
+\input{XLNet_Frame.tex}
+\input{ERNIE_Frame.tex}
+
+\end{document}
